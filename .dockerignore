@@ -1,0 +1,11 @@
+# Ignorar dependencias instaladas
+node_modules
+pnpm-lock.yaml
+
+# Ignorar archivos de configuración locales
+*.env
+*.log
+
+# Ignorar carpetas específicas
+frontend/node_modules
+backend/node_modules

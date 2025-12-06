@@ -1,0 +1,61 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --host 0.0.0.0",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^20.1.0",
+    "@angular/compiler": "^20.1.0",
+    "@angular/core": "^20.1.0",
+    "@angular/forms": "^20.1.0",
+    "@angular/platform-browser": "^20.1.0",
+    "@angular/router": "^20.1.0",
+    "@nestjs/swagger": "^11.2.3",
+    "@primeuix/themes": "^2.0.1",
+    "@tailwindcss/postcss": "^4.1.17",
+    "nestjs-pino": "^4.5.0",
+    "pino": "^10.1.0",
+    "postcss": "^8.5.6",
+    "primeicons": "^7.0.0",
+    "primeng": "^20.3.0",
+    "rxjs": "~7.8.0",
+    "swagger-ui-express": "^5.0.1",
+    "tailwindcss": "^4.1.17",
+    "tailwindcss-primeui": "^0.6.1",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^21.0.2",
+    "@angular/build": "^20.1.0",
+    "@angular/cli": "^20.1.0",
+    "@angular/compiler-cli": "^20.1.0",
+    "@types/jasmine": "~5.1.0",
+    "@vitest/coverage-v8": "^4.0.15",
+    "@vitest/ui": "^4.0.15",
+    "jasmine-core": "~5.8.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.8.2",
+    "vitest": "^4.0.15"
+  }
