@@ -1,0 +1,13 @@
+# Node
+node_modules
+dist
+*.log
+
+# Env
+.env
+
+# Docker
+pgdata
+
+# Angular
+.angular

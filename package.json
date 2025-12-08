@@ -1,0 +1,11 @@
+{
+  "name": "healthub-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev:backend": "pnpm --filter backend start:dev",
+    "dev:frontend": "pnpm --filter frontend start",
+    "dev": "pnpm -r start",
+    "build": "pnpm -r build"
+  }
+}
