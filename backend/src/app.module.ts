@@ -4,6 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { UsersModule } from './modules/users/users.module';
+import { RolesModule } from './modules/roles/roles.module';
 
 @Module({
   imports: [
@@ -16,6 +18,35 @@ import { join } from 'path';
         autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         sortSchema: true,
         playground: true, // dev only
+        
+        // Clean GraphQL errors: remove stacktraces and keep concise messages
+        formatError: (error) => {
+          const formatted: any = { message: error.message };
+
+          const code = error.extensions?.code;
+          if (code) {
+            formatted.extensions = { code };
+          }
+
+          // If the original exception had a response (Nest HttpException), use its message
+          const exception: any = error.extensions?.exception;
+          const response = exception?.response;
+          if (response && typeof response === 'object') {
+            const respMessage: any = response.message;
+            if (Array.isArray(respMessage)) {
+              formatted.message = respMessage.join('; ');
+            } else if (typeof respMessage === 'string') {
+              formatted.message = respMessage;
+            }
+            formatted.extensions = {
+              ...(formatted.extensions || {}),
+              status: response.statusCode ?? response.status,
+              error: response.error,
+            };
+          }
+
+          return formatted;
+        },
       }),
     }),
 
@@ -34,6 +65,10 @@ import { join } from 'path';
         synchronize: true, // dev only
       }),
     }),
+
+    UsersModule,
+
+    RolesModule,
   ],
 })
 export class AppModule {}
