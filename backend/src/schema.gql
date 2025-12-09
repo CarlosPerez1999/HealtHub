@@ -1,0 +1,101 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateRoleInput {
+  code: RoleEnum!
+  description: String!
+}
+
+input CreateUserInput {
+  active: Boolean
+  email: String!
+  emailVerified: Boolean
+  password: String!
+  roleId: ID
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createRole(createRoleInput: CreateRoleInput!): RoleObject!
+  createUser(createUserInput: CreateUserInput!): UserObject!
+  removeRole(id: Int!): RoleObject!
+  removeUser(id: String!): UserObject!
+  updateRole(updateRoleInput: UpdateRoleInput!): RoleObject!
+  updateUser(updateUserInput: UpdateUserInput!): UserObject!
+}
+
+type PaginatedRoles {
+  items: [RoleObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedUsers {
+  items: [UserObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+input PaginationInput {
+  skip: Int! = 0
+  take: Int! = 10
+}
+
+type Query {
+  role(id: Int!): RoleObject!
+  roles(pagination: PaginationInput): PaginatedRoles!
+  user(id: String!): UserObject!
+  users(pagination: PaginationInput): PaginatedUsers!
+}
+
+"""Available system roles"""
+enum RoleEnum {
+  ADMIN
+  DOCTOR
+  PATIENT
+  RECEPTIONIST
+}
+
+type RoleObject {
+  code: RoleEnum!
+  createdAt: DateTime!
+  description: String!
+  id: Int!
+  updatedAt: DateTime!
+}
+
+input UpdateRoleInput {
+  code: RoleEnum
+  description: String
+  id: Int!
+}
+
+input UpdateUserInput {
+  active: Boolean
+  email: String
+  emailVerified: Boolean
+  id: ID!
+  password: String
+  roleId: ID
+  username: String
+}
+
+type UserObject {
+  active: Boolean!
+  createdAt: DateTime!
+  email: String!
+  emailVerified: Boolean!
+  id: ID!
+  lastLogin: DateTime
+  role: RoleObject
+  updatedAt: DateTime!
+  username: String!
+}
