@@ -1,15 +1,15 @@
-import { Field, InputType } from "@nestjs/graphql";
-import { RoleEnum } from "src/modules/roles/enums/roles.enum";
-import { IsEnum, IsString, Length } from 'class-validator'
+import { Field, InputType } from '@nestjs/graphql';
+import { IsString, Length } from 'class-validator';
 
 @InputType()
 export class CreateRoleInput {
-  @Field(() => RoleEnum)
-  @IsEnum(RoleEnum)
-  code: RoleEnum;
+  @Field()
+  @IsString()
+  @Length(1, 64)
+  code: string;
 
   @Field()
   @IsString()
-  @Length(3, 50)
+  @Length(3, 255)
   description: string;
 }

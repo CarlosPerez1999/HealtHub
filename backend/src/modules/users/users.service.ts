@@ -27,7 +27,7 @@ export class UsersService {
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     try {
-      const { password, roleId, ...userRes } = createUserInput;
+      const { password, roleCode, ...userRes } = createUserInput;
       const exist = await this.usersRepository.findOneBy({
         email: createUserInput.email.toLowerCase(),
       });
@@ -40,12 +40,11 @@ export class UsersService {
         ...(hashed ? { passwordHash: hashed } : {}),
       };
 
-      if (roleId !== undefined && roleId !== null) {
-        const normalizedRoleId = typeof roleId === 'string' ? Number(roleId) : roleId;
-        if (Number.isNaN(normalizedRoleId)) {
-          throw new BadRequestException('roleId must be a number');
+      if (roleCode !== undefined && roleCode !== null) {
+        if (typeof roleCode !== 'string' || roleCode.trim() === '') {
+          throw new BadRequestException('roleCode must be a non-empty string');
         }
-        createData.role = { id: normalizedRoleId } as Role;
+        createData.role = { code: roleCode } as Role;
       }
 
       const user = this.usersRepository.create(createData);
@@ -89,7 +88,7 @@ export class UsersService {
 
   async update(updateUserInput: UpdateUserInput) {
     try {
-      const { password, roleId, ...userRes } = updateUserInput;
+      const { password, roleCode, ...userRes } = updateUserInput;
 
       const hashed = password ? await bcrypt.hash(password, 10) : undefined;
 
@@ -98,12 +97,11 @@ export class UsersService {
         ...(hashed ? { passwordHash: hashed } : {}),
       };
 
-      if (roleId !== undefined && roleId !== null) {
-        const normalizedRoleId = typeof roleId === 'string' ? Number(roleId) : roleId;
-        if (Number.isNaN(normalizedRoleId)) {
-          throw new BadRequestException('roleId must be a number');
+      if (roleCode !== undefined && roleCode !== null) {
+        if (typeof roleCode !== 'string' || roleCode.trim() === '') {
+          throw new BadRequestException('roleCode must be a non-empty string');
         }
-        preloadData.role = { id: normalizedRoleId } as Role;
+        preloadData.role = { code: roleCode } as Role;
       }
 
       const user = await this.usersRepository.preload(preloadData);

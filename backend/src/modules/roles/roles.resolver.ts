@@ -24,8 +24,8 @@ export class RolesResolver {
   }
 
   @Query(() => RoleObject, { name: 'role' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.rolesService.findOne(id);
+  findOne(@Args('code') code: string) {
+    return this.rolesService.findOne(code);
   }
 
   @Mutation(() => RoleObject)
@@ -34,7 +34,7 @@ export class RolesResolver {
   }
 
   @Mutation(() => RoleObject)
-  removeRole(@Args('id', { type: () => Int }) id: number) {
-    return this.rolesService.remove(id);
+  removeRole(@Args('code') code: string) {
+    return this.rolesService.remove(code);
   }
 }

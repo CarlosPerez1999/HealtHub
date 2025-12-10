@@ -39,10 +39,9 @@ export class VisibilityLevelsService {
     }
   }
 
-  async findOne(code: import('./enums/visibility-level.enum').VisibilityLevelEnum | string): Promise<VisibilityLevel> {
+  async findOne(code: string): Promise<VisibilityLevel> {
     try {
-      const enumCode = code as import('./enums/visibility-level.enum').VisibilityLevelEnum;
-      const item = await this.repo.findOne({ where: { code: enumCode } });
+      const item = await this.repo.findOne({ where: { code } });
       if (!item) throw new NotFoundException(`Visibility level ${code} not found`);
       return item;
     } catch (error) {

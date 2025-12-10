@@ -16,9 +16,10 @@ export class CreateUserInput {
   @Length(6, 128)
   password: string;
 
-  @Field(() => ID, { nullable: true })
+  @Field({ nullable: true })
   @IsOptional()
-  roleId?: string;
+  @IsString()
+  roleCode?: string;
 
   @Field(() => Boolean, { nullable: true })
   @IsOptional()

@@ -1,10 +1,16 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { VisibilityLevelEnum } from '../enums/visibility-level.enum';
-import { IsEnum } from 'class-validator';
+import { IsString, Length, IsOptional } from 'class-validator';
 
 @InputType()
 export class CreateVisibilityLevelInput {
-  @Field(() => VisibilityLevelEnum)
-  @IsEnum(VisibilityLevelEnum)
-  code: VisibilityLevelEnum;
+  @Field()
+  @IsString()
+  @Length(1, 64)
+  code: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  @Length(0, 255)
+  description?: string;
 }

@@ -56,10 +56,10 @@ export class RolesService {
     };
   }
 
-  async findOne(id: number) {
+  async findOne(code: string) {
     try {
-      const role = await this.rolesRepository.findOneBy({ id });
-      if (!role) throw new NotFoundException(`Role with id ${id}. Not found`);
+      const role = await this.rolesRepository.findOneBy({ code });
+      if (!role) throw new NotFoundException(`Role with code ${code} not found`);
       return role;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -68,7 +68,7 @@ export class RolesService {
 
   async update(updateRoleInput: UpdateRoleInput) {
     try {
-      const roleToUpdate = await this.rolesRepository.preload(updateRoleInput);
+      const roleToUpdate = await this.rolesRepository.preload(updateRoleInput as Partial<Role>);
 
       if (!roleToUpdate) throw new NotFoundException(`Role not found`);
       return await this.rolesRepository.save(roleToUpdate);
@@ -77,14 +77,14 @@ export class RolesService {
     }
   }
 
-  async remove(id: number) {
+  async remove(code: string) {
     try {
-      const role = await this.findOne(id);
-      await this.rolesRepository.softDelete(id);
-      return role
+      const role = await this.findOne(code);
+      await this.rolesRepository.softDelete({ code });
+      return role;
     } catch (error) {
       handleServiceError(error, this.logger, {
-        warnMessage: `Remove attempted on non-existing role: ${id}`,
+        warnMessage: `Remove attempted on non-existing role: ${code}`,
       });
     }
   }
