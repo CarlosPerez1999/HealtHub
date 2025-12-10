@@ -13,6 +13,7 @@ import { StatesModule } from './modules/states/states.module';
 import { AddressesModule } from './modules/addresses/addresses.module';
 import { IdentityTypesModule } from './modules/identity-types/identity-types.module';
 import { SpecialtiesModule } from './modules/specialties/specialties.module';
+import { VisibilityLevelsModule } from './modules/visibility-levels/visibility-levels.module';
 
 @Module({
   imports: [
@@ -82,6 +83,7 @@ import { SpecialtiesModule } from './modules/specialties/specialties.module';
     AddressesModule,
     IdentityTypesModule,
     SpecialtiesModule,
+    VisibilityLevelsModule,
   ],
 })
 export class AppModule {}
