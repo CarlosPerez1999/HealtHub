@@ -1,4 +1,5 @@
 import { User } from 'src/modules/users/entities/user.entity';
+import { IdentityType } from 'src/modules/identity-types/entities/identity-type.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -30,8 +31,9 @@ export class Patient {
   @Column({ name: 'date_of_birth', type: 'date' })
   dateOfBirth: Date;
 
-  @Column({ name: 'identity_type_id', type: 'uuid', nullable: true })
-  identityTypeId?: string;
+  @ManyToOne(() => IdentityType, (it) => it.patients, { eager: false, nullable: true })
+  @JoinColumn({ name: 'uses_id' })
+  identityType?: IdentityType;
 
   @Column({ name: 'national_id', nullable: true })
   nationalId?: string;

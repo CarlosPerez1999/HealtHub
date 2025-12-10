@@ -13,6 +13,7 @@ import { PaginatedPatients } from './models/paginated-patients.object';
 import { PaginationInput } from 'src/common/dto/pagination.input';
 import { handleServiceError } from 'src/common/utils/error-handler';
 import { User } from '../users/entities/user.entity';
+import { IdentityType } from 'src/modules/identity-types/entities/identity-type.entity';
 
 @Injectable()
 export class PatientsService {
@@ -28,11 +29,13 @@ export class PatientsService {
       const { userId, dateOfBirth, ...rest } = createPatientInput;
       if (!userId) throw new BadRequestException('userId is required');
 
+      const { identityTypeId, ...remaining } = rest as any;
       const createData: Partial<Patient> = {
-        ...rest,
+        ...remaining,
         dateOfBirth: this.parseDateOfBirth(dateOfBirth),
       };
       createData.user = { id: userId } as unknown as User;
+      if (identityTypeId) createData.identityType = { code: identityTypeId } as unknown as IdentityType;
 
       const patient = this.patientsRepository.create(createData);
       const saved = await this.patientsRepository.save(patient);
@@ -49,7 +52,7 @@ export class PatientsService {
     const [items, total] = await this.patientsRepository.findAndCount({
       take,
       skip,
-      relations: ['user'],
+      relations: ['user', 'identityType'],
     });
 
     return {
@@ -64,7 +67,7 @@ export class PatientsService {
     try {
       const patient = await this.patientsRepository.findOne({
         where: { id },
-        relations: ['user'],
+        relations: ['user', 'identityType'],
       });
       if (!patient)
         throw new NotFoundException(`Patient with id ${id} not found`);
@@ -78,13 +81,16 @@ export class PatientsService {
     try {
       const { userId, dateOfBirth, ...rest } = updatePatientInput;
 
-      const preloadData: Partial<Patient> = { ...rest };
+      const { identityTypeId, ...remaining } = rest as any;
+
+      const preloadData: Partial<Patient> = { ...remaining };
 
       if (dateOfBirth !== undefined) {
         preloadData.dateOfBirth = this.parseDateOfBirth(dateOfBirth);
       }
 
       if (userId) preloadData.user = { id: userId } as unknown as User;
+      if (identityTypeId !== undefined) preloadData.identityType = { code: identityTypeId } as unknown as IdentityType;
 
       const patient = await this.patientsRepository.preload(preloadData);
       if (!patient) throw new NotFoundException('Patient not found');

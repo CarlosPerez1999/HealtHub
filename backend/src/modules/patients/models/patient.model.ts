@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
 import { UserObject } from 'src/modules/users/models/user.model';
+import { IdentityTypeObject } from 'src/modules/identity-types/models/identity-type.model';
 
 @ObjectType()
 export class PatientObject {
@@ -18,8 +19,8 @@ export class PatientObject {
   @Field(() => GraphQLISODateTime)
   dateOfBirth: Date;
 
-  @Field({ nullable: true })
-  identityTypeId?: string;
+  @Field(() => IdentityTypeObject, { nullable: true })
+  identityType?: IdentityTypeObject;
 
   @Field({ nullable: true })
   nationalId?: string;
