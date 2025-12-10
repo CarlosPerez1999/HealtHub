@@ -1,6 +1,7 @@
 import { Role } from 'src/modules/roles/entities/role.entity';
 import { Patient } from 'src/modules/patients/entities/patient.entity';
 import { Doctor } from 'src/modules/doctors/entities/doctor.entity';
+import { Address } from 'src/modules/addresses/entities/address.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -45,6 +46,9 @@ export class User {
 
   @OneToMany(() => Doctor, (doctor) => doctor.user)
   doctors: Doctor[];
+
+  @OneToMany(() => Address, (address) => address.user)
+  addresses: Address[];
 
   @Column({ name: 'last_login', type: 'timestamptz', nullable: true })
   lastLogin: Date;
