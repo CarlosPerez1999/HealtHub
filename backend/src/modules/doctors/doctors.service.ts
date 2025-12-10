@@ -13,6 +13,7 @@ import { PaginatedDoctors } from './models/paginated-doctors.object';
 import { PaginationInput } from 'src/common/dto/pagination.input';
 import { handleServiceError } from 'src/common/utils/error-handler';
 import { User } from '../users/entities/user.entity';
+import { Specialty } from 'src/modules/specialties/entities/specialty.entity';
 
 @Injectable()
 export class DoctorsService {
@@ -25,10 +26,11 @@ export class DoctorsService {
 
   async create(createDoctorInput: CreateDoctorInput): Promise<Doctor> {
     try {
-      const { userId, ...rest } = createDoctorInput;
+      const { userId, specialtyId, ...rest } = createDoctorInput;
       const createData: Partial<Doctor> = { ...rest };
       if (!userId) throw new BadRequestException('userId is required');
       createData.user = { id: userId } as unknown as User;
+      if (specialtyId) createData.specialty = { id: specialtyId } as unknown as Specialty;
       const doctor = this.doctorsRepository.create(createData);
       const saved = await this.doctorsRepository.save(doctor);
       return await this.findOne(saved.id);
@@ -43,7 +45,7 @@ export class DoctorsService {
     const [items, total] = await this.doctorsRepository.findAndCount({
       take,
       skip,
-      relations: ['user'],
+      relations: ['user', 'specialty'],
     });
     return { items, total, take, skip } as PaginatedDoctors;
   }
@@ -52,7 +54,7 @@ export class DoctorsService {
     try {
       const doctor = await this.doctorsRepository.findOne({
         where: { id },
-        relations: ['user'],
+        relations: ['user', 'specialty'],
       });
       if (!doctor)
         throw new NotFoundException(`Doctor with id ${id} not found`);
@@ -64,9 +66,10 @@ export class DoctorsService {
 
   async update(updateDoctorInput: UpdateDoctorInput) {
     try {
-      const { userId, ...rest } = updateDoctorInput;
+      const { userId, specialtyId, ...rest } = updateDoctorInput as any;
       const preloadData: Partial<Doctor> = { ...rest };
       if (userId) preloadData.user = { id: userId } as unknown as User;
+      if (specialtyId !== undefined) preloadData.specialty = { id: specialtyId } as unknown as Specialty;
       const doctor = await this.doctorsRepository.preload(preloadData);
       if (!doctor) throw new NotFoundException('Doctor not found');
       const saved = await this.doctorsRepository.save(doctor);

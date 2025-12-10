@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
 import { UserObject } from 'src/modules/users/models/user.model';
+import { SpecialtyObject } from 'src/modules/specialties/models/specialty.model';
 
 @ObjectType()
 export class DoctorObject {
@@ -15,8 +16,8 @@ export class DoctorObject {
   @Field()
   lastName: string;
 
-  @Field({ nullable: true })
-  specialtyId?: string;
+  @Field(() => SpecialtyObject, { nullable: true })
+  specialty?: SpecialtyObject;
 
   @Field()
   licenseNumber: string;

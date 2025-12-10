@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/modules/users/entities/user.entity';
+import { Specialty } from 'src/modules/specialties/entities/specialty.entity';
 
 @Entity('doctors')
 export class Doctor {
@@ -27,8 +28,9 @@ export class Doctor {
   @Column({ name: 'last_name' })
   lastName: string;
 
-  @Column({ name: 'specialty_id', type: 'uuid', nullable: true })
-  specialtyId?: string;
+  @ManyToOne(() => Specialty, (s) => s.doctors, { eager: false, nullable: true })
+  @JoinColumn({ name: 'specialty_id' })
+  specialty?: Specialty;
 
   @Column({ name: 'license_number' })
   licenseNumber: string;

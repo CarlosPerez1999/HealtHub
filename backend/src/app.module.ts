@@ -8,6 +8,11 @@ import { UsersModule } from './modules/users/users.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { PatientsModule } from './modules/patients/patients.module';
 import { DoctorsModule } from './modules/doctors/doctors.module';
+import { CountriesModule } from './modules/countries/countries.module';
+import { StatesModule } from './modules/states/states.module';
+import { AddressesModule } from './modules/addresses/addresses.module';
+import { IdentityTypesModule } from './modules/identity-types/identity-types.module';
+import { SpecialtiesModule } from './modules/specialties/specialties.module';
 
 @Module({
   imports: [
@@ -72,6 +77,11 @@ import { DoctorsModule } from './modules/doctors/doctors.module';
     RolesModule,
     PatientsModule,
     DoctorsModule,
+    CountriesModule,
+    StatesModule,
+    AddressesModule,
+    IdentityTypesModule,
+    SpecialtiesModule,
   ],
 })
 export class AppModule {}
