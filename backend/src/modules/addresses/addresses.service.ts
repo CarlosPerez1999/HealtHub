@@ -22,16 +22,19 @@ export class AddressesService {
 
   async create(input: CreateAddressInput): Promise<Address> {
     try {
-      const { userId, stateId, countryCode, ...rest } = input;
+      const { userId, stateId, countryCode, line1, line2, city, postalCode } = input;
       if (!userId) throw new BadRequestException('userId is required');
       if (!stateId) throw new BadRequestException('stateId is required');
       if (!countryCode) throw new BadRequestException('countryCode is required');
 
       const createData: Partial<Address> = {
-        ...rest,
-        user: { id: userId } as unknown as User,
-        state: { id: stateId } as unknown as State,
-        country: { code: countryCode } as unknown as Country,
+        line1,
+        line2,
+        city,
+        postalCode,
+        user: { id: userId } as User,
+        state: { id: stateId } as State,
+        country: { code: countryCode } as Country,
       };
 
       const address = this.addressesRepository.create(createData);
@@ -65,14 +68,19 @@ export class AddressesService {
 
   async update(input: UpdateAddressInput) {
     try {
-      const { userId, stateId, countryCode, ...rest } = input as any;
-      const preloadData: Partial<Address> = { ...rest };
+      const { id, userId, stateId, countryCode, line1, line2, city, postalCode } = input;
+      const preloadData: Partial<Address> = { id };
 
-      if (userId) preloadData.user = { id: userId } as unknown as User;
-      if (stateId) preloadData.state = { id: stateId } as unknown as State;
-      if (countryCode) preloadData.country = { code: countryCode } as unknown as Country;
+      if (line1 !== undefined) preloadData.line1 = line1;
+      if (line2 !== undefined) preloadData.line2 = line2;
+      if (city !== undefined) preloadData.city = city;
+      if (postalCode !== undefined) preloadData.postalCode = postalCode;
 
-      const address = await this.addressesRepository.preload(preloadData as any);
+      if (userId) preloadData.user = { id: userId } as User;
+      if (stateId) preloadData.state = { id: stateId } as State;
+      if (countryCode) preloadData.country = { code: countryCode } as Country;
+
+      const address = await this.addressesRepository.preload(preloadData as Partial<Address>);
       if (!address) throw new NotFoundException('Address not found');
       const saved = await this.addressesRepository.save(address);
       return await this.findOne(saved.id);

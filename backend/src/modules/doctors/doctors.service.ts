@@ -26,11 +26,15 @@ export class DoctorsService {
 
   async create(createDoctorInput: CreateDoctorInput): Promise<Doctor> {
     try {
-      const { userId, specialtyId, ...rest } = createDoctorInput;
-      const createData: Partial<Doctor> = { ...rest };
+      const { userId, specialtyId, firstName, lastName, licenseNumber } = createDoctorInput;
       if (!userId) throw new BadRequestException('userId is required');
-      createData.user = { id: userId } as unknown as User;
-      if (specialtyId) createData.specialty = { id: specialtyId } as unknown as Specialty;
+      const createData: Partial<Doctor> = {
+        firstName,
+        lastName,
+        licenseNumber,
+      };
+      createData.user = { id: userId } as User;
+      if (specialtyId) createData.specialty = { id: specialtyId } as Specialty;
       const doctor = this.doctorsRepository.create(createData);
       const saved = await this.doctorsRepository.save(doctor);
       return await this.findOne(saved.id);
@@ -66,10 +70,13 @@ export class DoctorsService {
 
   async update(updateDoctorInput: UpdateDoctorInput) {
     try {
-      const { userId, specialtyId, ...rest } = updateDoctorInput as any;
-      const preloadData: Partial<Doctor> = { ...rest };
-      if (userId) preloadData.user = { id: userId } as unknown as User;
-      if (specialtyId !== undefined) preloadData.specialty = { id: specialtyId } as unknown as Specialty;
+      const { id, userId, specialtyId, firstName, lastName, licenseNumber } = updateDoctorInput;
+      const preloadData: Partial<Doctor> = { id };
+      if (firstName !== undefined) preloadData.firstName = firstName;
+      if (lastName !== undefined) preloadData.lastName = lastName;
+      if (licenseNumber !== undefined) preloadData.licenseNumber = licenseNumber;
+      if (userId) preloadData.user = { id: userId } as User;
+      if (specialtyId !== undefined) preloadData.specialty = { id: specialtyId } as Specialty;
       const doctor = await this.doctorsRepository.preload(preloadData);
       if (!doctor) throw new NotFoundException('Doctor not found');
       const saved = await this.doctorsRepository.save(doctor);

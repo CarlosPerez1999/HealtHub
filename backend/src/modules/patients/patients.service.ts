@@ -26,16 +26,19 @@ export class PatientsService {
 
   async create(createPatientInput: CreatePatientInput): Promise<Patient> {
     try {
-      const { userId, dateOfBirth, ...rest } = createPatientInput;
+      const { userId, dateOfBirth, identityTypeId, nationalId, nationalityCode, phone, firstName, lastName } = createPatientInput;
       if (!userId) throw new BadRequestException('userId is required');
 
-      const { identityTypeId, ...remaining } = rest as any;
       const createData: Partial<Patient> = {
-        ...remaining,
+        firstName,
+        lastName,
+        nationalId,
+        nationalityCode,
+        phone,
         dateOfBirth: this.parseDateOfBirth(dateOfBirth),
       };
-      createData.user = { id: userId } as unknown as User;
-      if (identityTypeId) createData.identityType = { code: identityTypeId } as unknown as IdentityType;
+      createData.user = { id: userId } as User;
+      if (identityTypeId) createData.identityType = { code: identityTypeId } as IdentityType;
 
       const patient = this.patientsRepository.create(createData);
       const saved = await this.patientsRepository.save(patient);
@@ -79,18 +82,22 @@ export class PatientsService {
 
   async update(updatePatientInput: UpdatePatientInput) {
     try {
-      const { userId, dateOfBirth, ...rest } = updatePatientInput;
+      const { id, userId, dateOfBirth, identityTypeId, nationalId, nationalityCode, phone, firstName, lastName } = updatePatientInput;
 
-      const { identityTypeId, ...remaining } = rest as any;
+      const preloadData: Partial<Patient> = { id };
 
-      const preloadData: Partial<Patient> = { ...remaining };
+      if (firstName !== undefined) preloadData.firstName = firstName;
+      if (lastName !== undefined) preloadData.lastName = lastName;
+      if (nationalId !== undefined) preloadData.nationalId = nationalId;
+      if (nationalityCode !== undefined) preloadData.nationalityCode = nationalityCode;
+      if (phone !== undefined) preloadData.phone = phone;
 
       if (dateOfBirth !== undefined) {
         preloadData.dateOfBirth = this.parseDateOfBirth(dateOfBirth);
       }
 
-      if (userId) preloadData.user = { id: userId } as unknown as User;
-      if (identityTypeId !== undefined) preloadData.identityType = { code: identityTypeId } as unknown as IdentityType;
+      if (userId) preloadData.user = { id: userId } as User;
+      if (identityTypeId !== undefined) preloadData.identityType = { code: identityTypeId } as IdentityType;
 
       const patient = await this.patientsRepository.preload(preloadData);
       if (!patient) throw new NotFoundException('Patient not found');

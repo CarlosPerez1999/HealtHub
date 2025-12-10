@@ -49,7 +49,7 @@ export class IdentityTypesService {
 
   async update(input: UpdateIdentityTypeInput): Promise<IdentityType> {
     try {
-      const entity = await this.identityRepository.preload(input as any);
+      const entity = await this.identityRepository.preload(input as Partial<IdentityType>);
       if (!entity) throw new NotFoundException(`IdentityType with code ${input.code} not found`);
       return await this.identityRepository.save(entity);
     } catch (error) {

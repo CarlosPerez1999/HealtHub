@@ -49,7 +49,7 @@ export class SpecialtiesService {
 
   async update(input: UpdateSpecialtyInput) {
     try {
-      const entity = await this.specialtyRepository.preload(input as any);
+      const entity = await this.specialtyRepository.preload(input as Partial<Specialty>);
       if (!entity) throw new NotFoundException(`Specialty with id ${input.id} not found`);
       return await this.specialtyRepository.save(entity);
     } catch (error) {

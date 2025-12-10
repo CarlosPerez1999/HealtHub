@@ -13,6 +13,7 @@ import { Repository } from 'typeorm';
 import { PaginatedUsers } from './models/paginated-users.object';
 import { PaginationInput } from 'src/common/dto/pagination.input';
 import { handleServiceError } from 'src/common/utils/error-handler';
+import { Role } from 'src/modules/roles/entities/role.entity';
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -44,7 +45,7 @@ export class UsersService {
         if (Number.isNaN(normalizedRoleId)) {
           throw new BadRequestException('roleId must be a number');
         }
-        createData.role = { id: normalizedRoleId } as unknown as User['role'];
+        createData.role = { id: normalizedRoleId } as Role;
       }
 
       const user = this.usersRepository.create(createData);
@@ -66,7 +67,7 @@ export class UsersService {
     });
 
     return {
-      items: items as any,
+      items,
       total,
       take,
       skip,
@@ -102,7 +103,7 @@ export class UsersService {
         if (Number.isNaN(normalizedRoleId)) {
           throw new BadRequestException('roleId must be a number');
         }
-        preloadData.role = { id: normalizedRoleId } as unknown as User['role'];
+        preloadData.role = { id: normalizedRoleId } as Role;
       }
 
       const user = await this.usersRepository.preload(preloadData);
