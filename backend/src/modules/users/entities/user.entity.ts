@@ -1,4 +1,6 @@
 import { Role } from 'src/modules/roles/entities/role.entity';
+import { Patient } from 'src/modules/patients/entities/patient.entity';
+import { Doctor } from 'src/modules/doctors/entities/doctor.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -8,6 +10,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -26,15 +29,22 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
+  
+  @Column('boolean', { default: true })
+  active: boolean;
+  
+  @Column({ name: 'email_verified', default: false })
+  emailVerified: boolean;
+  
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id' })
   role: Role;
 
-  @Column({ default: true })
-  active: boolean;
+  @OneToMany(() => Patient, (patient) => patient.user)
+  patients: Patient[];
 
-  @Column({ name: 'email_verified', default: false })
-  emailVerified: boolean;
+  @OneToMany(() => Doctor, (doctor) => doctor.user)
+  doctors: Doctor[];
 
   @Column({ name: 'last_login', type: 'timestamptz', nullable: true })
   lastLogin: Date;

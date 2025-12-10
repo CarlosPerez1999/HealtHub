@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { UsersModule } from './modules/users/users.module';
 import { RolesModule } from './modules/roles/roles.module';
+import { PatientsModule } from './modules/patients/patients.module';
+import { DoctorsModule } from './modules/doctors/doctors.module';
 
 @Module({
   imports: [
@@ -67,8 +69,9 @@ import { RolesModule } from './modules/roles/roles.module';
     }),
 
     UsersModule,
-
     RolesModule,
+    PatientsModule,
+    DoctorsModule,
   ],
 })
 export class AppModule {}

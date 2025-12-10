@@ -2,6 +2,28 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateDoctorInput {
+  boardCertified: Boolean
+  firstName: String!
+  lastName: String!
+  licenseCountry: String
+  licenseNumber: String!
+  phone: String
+  specialtyId: ID
+  userId: ID!
+}
+
+input CreatePatientInput {
+  dateOfBirth: DateTime!
+  firstName: String!
+  identityTypeId: ID
+  lastName: String!
+  nationalId: String
+  nationalityCode: String
+  phone: String
+  userId: ID!
+}
+
 input CreateRoleInput {
   code: RoleEnum!
   description: String!
@@ -21,13 +43,47 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type DoctorObject {
+  boardCertified: Boolean!
+  createdAt: DateTime!
+  firstName: String!
+  id: ID!
+  lastName: String!
+  licenseCountry: String
+  licenseNumber: String!
+  phone: String
+  specialtyId: String
+  updatedAt: DateTime!
+  user: UserObject!
+}
+
 type Mutation {
+  createDoctor(createDoctorInput: CreateDoctorInput!): DoctorObject!
+  createPatient(createPatientInput: CreatePatientInput!): PatientObject!
   createRole(createRoleInput: CreateRoleInput!): RoleObject!
   createUser(createUserInput: CreateUserInput!): UserObject!
+  removeDoctor(id: String!): DoctorObject!
+  removePatient(id: String!): PatientObject!
   removeRole(id: Int!): RoleObject!
   removeUser(id: String!): UserObject!
+  updateDoctor(updateDoctorInput: UpdateDoctorInput!): DoctorObject!
+  updatePatient(updatePatientInput: UpdatePatientInput!): PatientObject!
   updateRole(updateRoleInput: UpdateRoleInput!): RoleObject!
   updateUser(updateUserInput: UpdateUserInput!): UserObject!
+}
+
+type PaginatedDoctors {
+  items: [DoctorObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedPatients {
+  items: [PatientObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
 }
 
 type PaginatedRoles {
@@ -49,7 +105,25 @@ input PaginationInput {
   take: Int! = 10
 }
 
+type PatientObject {
+  createdAt: DateTime!
+  dateOfBirth: DateTime!
+  firstName: String!
+  id: ID!
+  identityTypeId: String
+  lastName: String!
+  nationalId: String
+  nationalityCode: String
+  phone: String
+  updatedAt: DateTime!
+  user: UserObject!
+}
+
 type Query {
+  doctor(id: String!): DoctorObject!
+  doctors(pagination: PaginationInput): PaginatedDoctors!
+  patient(id: String!): PatientObject!
+  patients(pagination: PaginationInput): PaginatedPatients!
   role(id: Int!): RoleObject!
   roles(pagination: PaginationInput): PaginatedRoles!
   user(id: String!): UserObject!
@@ -70,6 +144,30 @@ type RoleObject {
   description: String!
   id: Int!
   updatedAt: DateTime!
+}
+
+input UpdateDoctorInput {
+  boardCertified: Boolean
+  firstName: String
+  id: ID!
+  lastName: String
+  licenseCountry: String
+  licenseNumber: String
+  phone: String
+  specialtyId: ID
+  userId: ID
+}
+
+input UpdatePatientInput {
+  dateOfBirth: DateTime
+  firstName: String
+  id: ID!
+  identityTypeId: ID
+  lastName: String
+  nationalId: String
+  nationalityCode: String
+  phone: String
+  userId: ID
 }
 
 input UpdateRoleInput {
