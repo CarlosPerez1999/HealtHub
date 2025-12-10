@@ -1,5 +1,5 @@
 import { Patient } from 'src/modules/patients/entities/patient.entity';
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity('identity_types')
 export class IdentityType {
@@ -14,4 +14,13 @@ export class IdentityType {
 
   @OneToMany(() => Patient, (patient) => patient.identityType)
   patients: Patient[];
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz' })
+  deletedAt: Date;
 }

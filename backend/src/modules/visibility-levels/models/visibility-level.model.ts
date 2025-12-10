@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
 
 @ObjectType()
 export class VisibilityLevelObject {
@@ -7,4 +7,11 @@ export class VisibilityLevelObject {
 
   @Field({ nullable: true })
   description?: string;
+  
+  @Field(() => GraphQLISODateTime)
+  createdAt: Date;
+
+  @Field(() => GraphQLISODateTime)
+  updatedAt: Date;
+ 
 }

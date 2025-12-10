@@ -1,5 +1,5 @@
 import { Doctor } from 'src/modules/doctors/entities/doctor.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity('specialties')
 export class Specialty {
@@ -14,4 +14,13 @@ export class Specialty {
 
   @OneToMany(() => Doctor, (doctor) => doctor.specialty)
   doctors: Doctor[];
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz' })
+  deletedAt: Date;
 }
