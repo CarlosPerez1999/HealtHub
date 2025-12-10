@@ -16,6 +16,8 @@ import { SpecialtiesModule } from './modules/specialties/specialties.module';
 import { VisibilityLevelsModule } from './modules/visibility-levels/visibility-levels.module';
 import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 import { MedicalEventTypesModule } from './modules/medical-event-types/medical-event-types.module';
+import { AppointmentTypesModule } from './modules/appointment-types/appointment-types.module';
+import { AppointmentStatusModule } from './modules/appointment-status/appointment-status.module';
 
 @Module({
   imports: [
@@ -88,6 +90,9 @@ import { MedicalEventTypesModule } from './modules/medical-event-types/medical-e
     VisibilityLevelsModule,
     MedicalEventTypesModule,
     MedicalHistoryModule,
+    // Appointment modules
+    AppointmentTypesModule,
+    AppointmentStatusModule,
   ],
 })
 export class AppModule {}

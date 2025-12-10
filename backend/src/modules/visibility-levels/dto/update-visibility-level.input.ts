@@ -1,6 +1,6 @@
 import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { CreateVisibilityLevelInput } from './create-visibility-level.input';
-import { IsEnum } from 'class-validator';
+import { IsString, Length, IsOptional } from 'class-validator';
 
 @InputType()
 export class UpdateVisibilityLevelInput extends PartialType(CreateVisibilityLevelInput) {
