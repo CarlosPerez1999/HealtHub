@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
 import { RoleObject } from 'src/modules/roles/models/role.model';
+import { AddressObject } from 'src/modules/addresses/models/address.model';
 
 @ObjectType()
 export class UserObject {
@@ -29,4 +30,7 @@ export class UserObject {
 
   @Field(() => GraphQLISODateTime)
   updatedAt: Date;
+
+  @Field(() => [AddressObject], { nullable: true })
+  addresses?: AddressObject[];
 }
