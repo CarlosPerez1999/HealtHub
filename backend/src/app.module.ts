@@ -14,6 +14,7 @@ import { AddressesModule } from './modules/addresses/addresses.module';
 import { IdentityTypesModule } from './modules/identity-types/identity-types.module';
 import { SpecialtiesModule } from './modules/specialties/specialties.module';
 import { VisibilityLevelsModule } from './modules/visibility-levels/visibility-levels.module';
+import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 import { MedicalEventTypesModule } from './modules/medical-event-types/medical-event-types.module';
 
 @Module({
@@ -86,6 +87,7 @@ import { MedicalEventTypesModule } from './modules/medical-event-types/medical-e
     SpecialtiesModule,
     VisibilityLevelsModule,
     MedicalEventTypesModule,
+    MedicalHistoryModule,
   ],
 })
 export class AppModule {}
