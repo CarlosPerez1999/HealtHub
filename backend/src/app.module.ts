@@ -93,6 +93,7 @@ import { AppointmentStatusModule } from './modules/appointment-status/appointmen
     // Appointment modules
     AppointmentTypesModule,
     AppointmentStatusModule,
+    AppointmentsModule,
   ],
 })
 export class AppModule {}
