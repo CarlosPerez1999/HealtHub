@@ -21,6 +21,10 @@ import { AppointmentStatusModule } from './modules/appointment-status/appointmen
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { RegulatoryClassesModule } from './modules/regulatory-classes/regulatory-classes.module';
 import { MedicationsModule } from './modules/medications/medications.module';
+import { PrescriptionStatusModule } from './modules/prescription-status/prescription-status.module';
+import { MedicalNotesModule } from './modules/medical-notes/medical-notes.module';
+import { PrescriptionsModule } from './modules/prescriptions/prescriptions.module';
+import { PrescriptionItemsModule } from './modules/prescription-items/prescription-items.module';
 
 @Module({
   imports: [
@@ -99,6 +103,10 @@ import { MedicationsModule } from './modules/medications/medications.module';
     AppointmentsModule,
     RegulatoryClassesModule,
     MedicationsModule,
+    PrescriptionStatusModule,
+    MedicalNotesModule,
+    PrescriptionsModule,
+    PrescriptionItemsModule,
   ],
 })
 export class AppModule {}
