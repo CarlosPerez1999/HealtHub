@@ -4,7 +4,7 @@ import { StateObject } from './models/state.model';
 import { PaginatedStates } from './models/paginated-states.object';
 import { CreateStateInput } from './dto/create-state.input';
 import { UpdateStateInput } from './dto/update-state.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => StateObject)
 export class StatesResolver {

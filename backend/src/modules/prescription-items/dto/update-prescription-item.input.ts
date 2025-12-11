@@ -1,5 +1,6 @@
 import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { IsUUID, IsString, IsOptional } from 'class-validator';
+import { CreatePrescriptionItemInput } from './create-prescription-item.input';
 
 @InputType()
 export class UpdatePrescriptionItemInput extends PartialType(CreatePrescriptionItemInput) {

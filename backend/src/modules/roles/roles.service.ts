@@ -11,8 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
 import { Repository } from 'typeorm';
 import { PaginatedRoles } from './models/paginated-roles.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
-import { handleServiceError } from 'src/common/utils/error-handler';
+import { PaginationInput } from '../../common/dto/pagination.input';
+import { handleServiceError } from '../../common/utils/error-handler';
 
 @Injectable()
 export class RolesService {

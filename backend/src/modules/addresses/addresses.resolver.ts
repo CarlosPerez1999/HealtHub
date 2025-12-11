@@ -4,7 +4,7 @@ import { AddressObject } from './models/address.model';
 import { PaginatedAddresses } from './models/paginated-addresses.object';
 import { CreateAddressInput } from './dto/create-address.input';
 import { UpdateAddressInput } from './dto/update-address.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => AddressObject)
 export class AddressesResolver {

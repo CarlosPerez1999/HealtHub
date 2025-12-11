@@ -4,7 +4,7 @@ import { RoleObject } from './models/role.model';
 import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { PaginatedRoles } from './models/paginated-roles.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => RoleObject)
 export class RolesResolver {

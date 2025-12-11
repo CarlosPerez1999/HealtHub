@@ -1,6 +1,6 @@
-import { Patient } from 'src/modules/patients/entities/patient.entity';
-import { MedicalEventType } from 'src/modules/medical-event-types/entities/medical-event-type.entity';
-import { VisibilityLevel } from 'src/modules/visibility-levels/entities/visibility-level.entity';
+import { Patient } from '../../patients/entities/patient.entity';
+import { MedicalEventType } from '../../medical-event-types/entities/medical-event-type.entity';
+import { VisibilityLevel } from '../../visibility-levels/entities/visibility-level.entity';
 import {
   Column,
   Entity,

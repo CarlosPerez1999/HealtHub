@@ -4,7 +4,7 @@ import { MedicalEventTypeObject } from './models/medical-event-type.model';
 import { PaginatedMedicalEventTypes } from './models/paginated-medical-event-types.object';
 import { CreateMedicalEventTypeInput } from './dto/create-medical-event-type.input';
 import { UpdateMedicalEventTypeInput } from './dto/update-medical-event-type.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => MedicalEventTypeObject)
 export class MedicalEventTypesResolver {

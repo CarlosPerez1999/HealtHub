@@ -4,7 +4,7 @@ import { VisibilityLevelObject } from './models/visibility-level.model';
 import { PaginatedVisibilityLevels } from './models/paginated-visibility-levels.object';
 import { CreateVisibilityLevelInput } from './dto/create-visibility-level.input';
 import { UpdateVisibilityLevelInput } from './dto/update-visibility-level.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => VisibilityLevelObject)
 export class VisibilityLevelsResolver {

@@ -4,7 +4,7 @@ import { MedicalHistoryObject } from './models/medical-history.model';
 import { PaginatedMedicalHistories } from './models/paginated-medical-histories.object';
 import { CreateMedicalHistoryInput } from './dto/create-medical-history.input';
 import { UpdateMedicalHistoryInput } from './dto/update-medical-history.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => MedicalHistoryObject)
 export class MedicalHistoryResolver {

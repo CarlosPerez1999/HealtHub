@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { Country } from './entities/country.entity';
 import { CreateCountryInput } from './dto/create-country.input';
 import { UpdateCountryInput } from './dto/update-country.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedCountries } from './models/paginated-countries.object';
-import { handleServiceError } from 'src/common/utils/error-handler';
+import { handleServiceError } from '../../common/utils/error-handler';
 
 @Injectable()
 export class CountriesService {
@@ -14,13 +14,13 @@ export class CountriesService {
 
   constructor(
     @InjectRepository(Country)
-    private readonly countryRepository: Repository<Country>,
+    private readonly countriesRepository: Repository<Country>,
   ) {}
 
   async create(input: CreateCountryInput): Promise<Country> {
     try {
-      const country = this.countryRepository.create(input);
-      return await this.countryRepository.save(country);
+      const country = this.countriesRepository.create(input);
+      return await this.countriesRepository.save(country);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -30,7 +30,7 @@ export class CountriesService {
     try {
       const take = pagination?.take ?? 10;
       const skip = pagination?.skip ?? 0;
-      const [items, total] = await this.countryRepository.findAndCount({ take, skip });
+      const [items, total] = await this.countriesRepository.findAndCount({ take, skip });
       return { items, total, take, skip } as PaginatedCountries;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -39,7 +39,7 @@ export class CountriesService {
 
   async findOne(code: string): Promise<Country> {
     try {
-      const country = await this.countryRepository.findOne({ where: { code } });
+      const country = await this.countriesRepository.findOne({ where: { code } });
       if (!country) throw new NotFoundException(`Country with code ${code} not found`);
       return country;
     } catch (error) {
@@ -49,9 +49,9 @@ export class CountriesService {
 
   async update(input: UpdateCountryInput): Promise<Country> {
     try {
-      const country = await this.countryRepository.preload(input);
+      const country = await this.countriesRepository.preload(input);
       if (!country) throw new NotFoundException(`Country with code ${input.code} not found`);
-      return await this.countryRepository.save(country);
+      return await this.countriesRepository.save(country);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -60,7 +60,7 @@ export class CountriesService {
   async remove(code: string): Promise<Country> {
     try {
       const country = await this.findOne(code);
-      await this.countryRepository.remove(country);
+      await this.countriesRepository.remove(country);
       return country;
     } catch (error) {
       handleServiceError(error, this.logger);

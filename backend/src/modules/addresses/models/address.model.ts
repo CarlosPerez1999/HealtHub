@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
-import { UserObject } from 'src/modules/users/models/user.model';
-import { StateObject } from 'src/modules/states/models/state.model';
-import { CountryObject } from 'src/modules/countries/models/country.model';
+import { UserObject } from '../../users/models/user.model';
+import { StateObject } from '../../states/models/state.model';
+import { CountryObject } from '../../countries/models/country.model';
 
 @ObjectType()
 export class AddressObject {

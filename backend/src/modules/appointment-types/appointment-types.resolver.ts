@@ -3,7 +3,7 @@ import { AppointmentTypesService } from './appointment-types.service';
 import { AppointmentTypeObject } from './models/appointment-type.model';
 import { CreateAppointmentTypeInput } from './dto/create-appointment-type.input';
 import { UpdateAppointmentTypeInput } from './dto/update-appointment-type.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedAppointmentTypes } from './models/paginated-appointment-types.object';
 
 @Resolver(() => AppointmentTypeObject)

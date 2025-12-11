@@ -11,9 +11,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { PaginatedUsers } from './models/paginated-users.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
-import { handleServiceError } from 'src/common/utils/error-handler';
-import { Role } from 'src/modules/roles/entities/role.entity';
+import { PaginationInput } from '../../common/dto/pagination.input';
+import { handleServiceError } from '../../common/utils/error-handler';
+import { Role } from '../roles/entities/role.entity';
 import * as bcrypt from 'bcrypt'
 
 @Injectable()

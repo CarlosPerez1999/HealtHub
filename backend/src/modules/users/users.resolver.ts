@@ -4,7 +4,7 @@ import { UserObject } from './models/user.model';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { PaginatedUsers } from './models/paginated-users.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => UserObject)
 export class UsersResolver {

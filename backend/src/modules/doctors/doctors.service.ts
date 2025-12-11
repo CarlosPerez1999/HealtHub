@@ -10,10 +10,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Doctor } from './entities/doctor.entity';
 import { Repository } from 'typeorm';
 import { PaginatedDoctors } from './models/paginated-doctors.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
-import { handleServiceError } from 'src/common/utils/error-handler';
+import { PaginationInput } from '../../common/dto/pagination.input';
+import { handleServiceError } from '../../common/utils/error-handler';
 import { User } from '../users/entities/user.entity';
-import { Specialty } from 'src/modules/specialties/entities/specialty.entity';
+import { Specialty } from '../specialties/entities/specialty.entity';
 
 @Injectable()
 export class DoctorsService {

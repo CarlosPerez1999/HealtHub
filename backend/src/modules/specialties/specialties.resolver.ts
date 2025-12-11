@@ -4,7 +4,7 @@ import { SpecialtyObject } from './models/specialty.model';
 import { PaginatedSpecialties } from './models/paginated-specialties.object';
 import { CreateSpecialtyInput } from './dto/create-specialty.input';
 import { UpdateSpecialtyInput } from './dto/update-specialty.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => SpecialtyObject)
 export class SpecialtiesResolver {

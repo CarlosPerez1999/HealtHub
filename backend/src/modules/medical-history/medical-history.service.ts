@@ -5,11 +5,11 @@ import { MedicalHistory } from './entities/medical-history.entity';
 import { CreateMedicalHistoryInput } from './dto/create-medical-history.input';
 import { UpdateMedicalHistoryInput } from './dto/update-medical-history.input';
 import { PaginatedMedicalHistories } from './models/paginated-medical-histories.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
-import { handleServiceError } from 'src/common/utils/error-handler';
-import { Patient } from 'src/modules/patients/entities/patient.entity';
-import { MedicalEventType } from 'src/modules/medical-event-types/entities/medical-event-type.entity';
-import { VisibilityLevel } from 'src/modules/visibility-levels/entities/visibility-level.entity';
+import { PaginationInput } from '../../common/dto/pagination.input';
+import { handleServiceError } from '../../common/utils/error-handler';
+import { Patient } from '../patients/entities/patient.entity';
+import { MedicalEventType } from '../medical-event-types/entities/medical-event-type.entity';
+import { VisibilityLevel } from '../visibility-levels/entities/visibility-level.entity';
 
 @Injectable()
 export class MedicalHistoryService {
@@ -17,7 +17,7 @@ export class MedicalHistoryService {
 
   constructor(
     @InjectRepository(MedicalHistory)
-    private readonly repo: Repository<MedicalHistory>,
+    private readonly medicalHistoryRepository: Repository<MedicalHistory>,
   ) {}
 
   async create(input: CreateMedicalHistoryInput): Promise<MedicalHistory> {
@@ -36,8 +36,8 @@ export class MedicalHistoryService {
 
       if (visibilityCode) createData.visibility = { code: visibilityCode } as VisibilityLevel;
 
-      const entity = this.repo.create(createData);
-      const saved = await this.repo.save(entity);
+      const entity = this.medicalHistoryRepository.create(createData);
+      const saved = await this.medicalHistoryRepository.save(entity);
       return await this.findOne(saved.id);
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -48,7 +48,7 @@ export class MedicalHistoryService {
     try {
       const take = pagination?.take ?? 10;
       const skip = pagination?.skip ?? 0;
-      const [items, total] = await this.repo.findAndCount({ take, skip, relations: ['patient', 'eventType', 'visibility'] });
+      const [items, total] = await this.medicalHistoryRepository.findAndCount({ take, skip, relations: ['patient', 'eventType', 'visibility'] });
       return { items, total, take, skip } as PaginatedMedicalHistories;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -57,7 +57,7 @@ export class MedicalHistoryService {
 
   async findOne(id: string): Promise<MedicalHistory> {
     try {
-      const item = await this.repo.findOne({ where: { id }, relations: ['patient', 'eventType', 'visibility'] });
+      const item = await this.medicalHistoryRepository.findOne({ where: { id }, relations: ['patient', 'eventType', 'visibility'] });
       if (!item) throw new NotFoundException(`MedicalHistory with id ${id} not found`);
       return item;
     } catch (error) {
@@ -77,9 +77,9 @@ export class MedicalHistoryService {
       if (description !== undefined) preloadData.description = description;
       if (occurredAt !== undefined) preloadData.occurredAt = occurredAt ? new Date(occurredAt) : undefined;
 
-      const entity = await this.repo.preload(preloadData as Partial<MedicalHistory>);
+      const entity = await this.medicalHistoryRepository.preload(preloadData as Partial<MedicalHistory>);
       if (!entity) throw new NotFoundException('MedicalHistory not found');
-      const saved = await this.repo.save(entity);
+      const saved = await this.medicalHistoryRepository.save(entity);
       return await this.findOne(saved.id);
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -89,7 +89,7 @@ export class MedicalHistoryService {
   async remove(id: string) {
     try {
       const item = await this.findOne(id);
-      await this.repo.softDelete(id);
+      await this.medicalHistoryRepository.softDelete(id);
       return item;
     } catch (error) {
       handleServiceError(error, this.logger, {

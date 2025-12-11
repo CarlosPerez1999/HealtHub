@@ -1,5 +1,5 @@
-import { User } from 'src/modules/users/entities/user.entity';
-import { IdentityType } from 'src/modules/identity-types/entities/identity-type.entity';
+import { User } from '../../users/entities/user.entity';
+import { IdentityType } from '../../identity-types/entities/identity-type.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

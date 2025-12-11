@@ -1,4 +1,4 @@
-import { Patient } from 'src/modules/patients/entities/patient.entity';
+import { Patient } from '../../patients/entities/patient.entity';
 import { Column, Entity, OneToMany, PrimaryColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity('identity_types')

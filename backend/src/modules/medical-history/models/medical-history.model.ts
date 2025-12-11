@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
-import { PatientObject } from 'src/modules/patients/models/patient.model';
-import { MedicalEventTypeObject } from 'src/modules/medical-event-types/models/medical-event-type.model';
-import { VisibilityLevelObject } from 'src/modules/visibility-levels/models/visibility-level.model';
+import { PatientObject } from '../../patients/models/patient.model';
+import { MedicalEventTypeObject } from '../../medical-event-types/models/medical-event-type.model';
+import { VisibilityLevelObject } from '../../visibility-levels/models/visibility-level.model';
 
 @ObjectType()
 export class MedicalHistoryObject {

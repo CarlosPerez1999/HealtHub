@@ -3,7 +3,7 @@ import { AppointmentStatusService } from './appointment-status.service';
 import { AppointmentStatusObject } from './models/appointment-status.model';
 import { CreateAppointmentStatusInput } from './dto/create-appointment-status.input';
 import { UpdateAppointmentStatusInput } from './dto/update-appointment-status.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedAppointmentStatuses } from './models/paginated-appointment-statuses.object';
 
 @Resolver(() => AppointmentStatusObject)

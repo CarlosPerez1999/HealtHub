@@ -5,8 +5,8 @@ import { IdentityType } from './entities/identity-type.entity';
 import { CreateIdentityTypeInput } from './dto/create-identity-type.input';
 import { UpdateIdentityTypeInput } from './dto/update-identity-type.input';
 import { PaginatedIdentityTypes } from './models/paginated-identity-types.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
-import { handleServiceError } from 'src/common/utils/error-handler';
+import { PaginationInput } from '../../common/dto/pagination.input';
+import { handleServiceError } from '../../common/utils/error-handler';
 
 @Injectable()
 export class IdentityTypesService {
@@ -14,13 +14,13 @@ export class IdentityTypesService {
 
   constructor(
     @InjectRepository(IdentityType)
-    private readonly identityRepository: Repository<IdentityType>,
+    private readonly identityTypesRepository: Repository<IdentityType>,
   ) {}
 
   async create(input: CreateIdentityTypeInput): Promise<IdentityType> {
     try {
-      const entity = this.identityRepository.create(input);
-      return await this.identityRepository.save(entity);
+      const entity = this.identityTypesRepository.create(input);
+      return await this.identityTypesRepository.save(entity);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -30,7 +30,7 @@ export class IdentityTypesService {
     try {
       const take = pagination?.take ?? 10;
       const skip = pagination?.skip ?? 0;
-      const [items, total] = await this.identityRepository.findAndCount({ take, skip });
+      const [items, total] = await this.identityTypesRepository.findAndCount({ take, skip });
       return { items, total, take, skip } as PaginatedIdentityTypes;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -39,7 +39,7 @@ export class IdentityTypesService {
 
   async findOne(code: string): Promise<IdentityType> {
     try {
-      const item = await this.identityRepository.findOne({ where: { code } });
+      const item = await this.identityTypesRepository.findOne({ where: { code } });
       if (!item) throw new NotFoundException(`IdentityType with code ${code} not found`);
       return item;
     } catch (error) {
@@ -49,9 +49,9 @@ export class IdentityTypesService {
 
   async update(input: UpdateIdentityTypeInput): Promise<IdentityType> {
     try {
-      const entity = await this.identityRepository.preload(input as Partial<IdentityType>);
+      const entity = await this.identityTypesRepository.preload(input as Partial<IdentityType>);
       if (!entity) throw new NotFoundException(`IdentityType with code ${input.code} not found`);
-      return await this.identityRepository.save(entity);
+      return await this.identityTypesRepository.save(entity);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -60,7 +60,7 @@ export class IdentityTypesService {
   async remove(code: string): Promise<IdentityType> {
     try {
       const entity = await this.findOne(code);
-      await this.identityRepository.remove(entity);
+      await this.identityTypesRepository.remove(entity);
       return entity;
     } catch (error) {
       handleServiceError(error, this.logger);

@@ -3,7 +3,7 @@ import { RegulatoryClassesService } from './regulatory-classes.service';
 import { RegulatoryClassObject } from './models/regulatory-class.model';
 import { CreateRegulatoryClassInput } from './dto/create-regulatory-class.input';
 import { UpdateRegulatoryClassInput } from './dto/update-regulatory-class.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedRegulatoryClasses } from './models/paginated-regulatory-classes.object';
 
 @Resolver(() => RegulatoryClassObject)

@@ -4,7 +4,7 @@ import { IdentityTypeObject } from './models/identity-type.model';
 import { PaginatedIdentityTypes } from './models/paginated-identity-types.object';
 import { CreateIdentityTypeInput } from './dto/create-identity-type.input';
 import { UpdateIdentityTypeInput } from './dto/update-identity-type.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => IdentityTypeObject)
 export class IdentityTypesResolver {

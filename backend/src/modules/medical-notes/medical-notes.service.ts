@@ -8,16 +8,17 @@ import { handleServiceError } from '../../common/utils/error-handler';
 
 @Injectable()
 export class MedicalNotesService {
+  private readonly logger = new Logger(MedicalNotesService.name);
+
   constructor(
     @InjectRepository(MedicalNote)
-    private readonly repo: Repository<MedicalNote>,
-    private readonly logger = new Logger(MedicalNotesService.name),
+    private readonly medicalNotesRepository: Repository<MedicalNote>,
   ) {}
 
   async create(input: CreateMedicalNoteInput) {
     try {
-      const entity = this.repo.create(input);
-      return await this.repo.save(entity);
+      const entity = this.medicalNotesRepository.create(input);
+      return await this.medicalNotesRepository.save(entity);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -25,7 +26,7 @@ export class MedicalNotesService {
 
   async findAll() {
     try {
-      return await this.repo.find();
+      return await this.medicalNotesRepository.find();
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -33,7 +34,7 @@ export class MedicalNotesService {
 
   async findOne(id: string) {
     try {
-      return await this.repo.findOneBy({ id });
+      return await this.medicalNotesRepository.findOneBy({ id });
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -41,7 +42,7 @@ export class MedicalNotesService {
 
   async update(id: string, input: UpdateMedicalNoteInput) {
     try {
-      await this.repo.update({ id }, input);
+      await this.medicalNotesRepository.update({ id }, input);
       return this.findOne(id);
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -50,7 +51,7 @@ export class MedicalNotesService {
 
   async remove(id: string) {
     try {
-      await this.repo.softDelete({ id });
+      await this.medicalNotesRepository.softDelete({ id });
       return true;
     } catch (error) {
       handleServiceError(error, this.logger);

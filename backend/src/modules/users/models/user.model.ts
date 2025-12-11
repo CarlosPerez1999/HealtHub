@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
-import { RoleObject } from 'src/modules/roles/models/role.model';
-import { AddressObject } from 'src/modules/addresses/models/address.model';
+import { RoleObject } from '../../roles/models/role.model';
+import { AddressObject } from '../../addresses/models/address.model';
 
 @ObjectType()
 export class UserObject {

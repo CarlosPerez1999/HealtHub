@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { State } from './entities/state.entity';
 import { CreateStateInput } from './dto/create-state.input';
 import { UpdateStateInput } from './dto/update-state.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedStates } from './models/paginated-states.object';
-import { handleServiceError } from 'src/common/utils/error-handler';
+import { handleServiceError } from '../../common/utils/error-handler';
 
 @Injectable()
 export class StatesService {
@@ -14,13 +14,13 @@ export class StatesService {
 
   constructor(
     @InjectRepository(State)
-    private readonly stateRepository: Repository<State>,
+    private readonly statesRepository: Repository<State>,
   ) {}
 
   async create(input: CreateStateInput): Promise<State> {
     try {
-      const state = this.stateRepository.create(input);
-      return await this.stateRepository.save(state);
+      const state = this.statesRepository.create(input);
+      return await this.statesRepository.save(state);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -30,7 +30,7 @@ export class StatesService {
     try {
       const take = pagination?.take ?? 10;
       const skip = pagination?.skip ?? 0;
-      const [items, total] = await this.stateRepository.findAndCount({ take, skip });
+      const [items, total] = await this.statesRepository.findAndCount({ take, skip });
       return { items, total, take, skip } as PaginatedStates;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -39,7 +39,7 @@ export class StatesService {
 
   async findOne(id: string): Promise<State> {
     try {
-      const state = await this.stateRepository.findOne({ where: { id } });
+      const state = await this.statesRepository.findOne({ where: { id } });
       if (!state) throw new NotFoundException(`State with id ${id} not found`);
       return state;
     } catch (error) {
@@ -49,9 +49,9 @@ export class StatesService {
 
   async update(input: UpdateStateInput): Promise<State> {
     try {
-      const state = await this.stateRepository.preload(input);
+      const state = await this.statesRepository.preload(input);
       if (!state) throw new NotFoundException(`State with id ${input.id} not found`);
-      return await this.stateRepository.save(state);
+      return await this.statesRepository.save(state);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -60,7 +60,7 @@ export class StatesService {
   async remove(id: string): Promise<State> {
     try {
       const state = await this.findOne(id);
-      await this.stateRepository.remove(state);
+      await this.statesRepository.remove(state);
       return state;
     } catch (error) {
       handleServiceError(error, this.logger);

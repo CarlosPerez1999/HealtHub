@@ -3,7 +3,7 @@ import { MedicationsService } from './medications.service';
 import { MedicationObject } from './models/medication.model';
 import { CreateMedicationInput } from './dto/create-medication.input';
 import { UpdateMedicationInput } from './dto/update-medication.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedMedications } from './models/paginated-medications.object';
 
 @Resolver(() => MedicationObject)

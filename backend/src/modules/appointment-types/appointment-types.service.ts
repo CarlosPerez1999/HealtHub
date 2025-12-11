@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AppointmentType } from './entities/appointment-type.entity';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { CreateAppointmentTypeInput } from './dto/create-appointment-type.input';
 import { UpdateAppointmentTypeInput } from './dto/update-appointment-type.input';
 
@@ -12,18 +12,18 @@ export class AppointmentTypesService {
 
   constructor(
     @InjectRepository(AppointmentType)
-    private readonly repo: Repository<AppointmentType>,
+    private readonly appointmentTypesRepository: Repository<AppointmentType>,
   ) {}
 
   async create(input: CreateAppointmentTypeInput) {
     try {
-      const existing = await this.repo.findOne({ where: { code: input.code } });
+      const existing = await this.appointmentTypesRepository.findOne({ where: { code: input.code } });
       if (existing) {
         throw new Error('AppointmentType with this code already exists');
       }
 
-      const entity = this.repo.create(input as Partial<AppointmentType>);
-      return this.repo.save(entity);
+      const entity = this.appointmentTypesRepository.create(input as Partial<AppointmentType>);
+      return this.appointmentTypesRepository.save(entity);
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;
@@ -32,7 +32,7 @@ export class AppointmentTypesService {
 
   async findAll() {
     try {
-      return await this.repo.find();
+      return await this.appointmentTypesRepository.find();
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;
@@ -43,7 +43,7 @@ export class AppointmentTypesService {
     const take = pagination?.take ?? 10;
     const skip = pagination?.skip ?? 0;
     try {
-      const [items, total] = await this.repo.findAndCount({ take, skip });
+      const [items, total] = await this.appointmentTypesRepository.findAndCount({ take, skip });
 
       return { items, total, take, skip };
     } catch (error) {
@@ -54,7 +54,7 @@ export class AppointmentTypesService {
 
   async findOne(id: string) {
     try {
-      return await this.repo.findOne({ where: { id } });
+      return await this.appointmentTypesRepository.findOne({ where: { id } });
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;
@@ -63,9 +63,9 @@ export class AppointmentTypesService {
 
   async update(id: string, input: UpdateAppointmentTypeInput) {
     try {
-      const entity = await this.repo.preload({ id, ...input } as Partial<AppointmentType>);
+      const entity = await this.appointmentTypesRepository.preload({ id, ...input } as Partial<AppointmentType>);
       if (!entity) throw new Error('AppointmentType not found');
-      return await this.repo.save(entity);
+      return await this.appointmentTypesRepository.save(entity);
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;
@@ -74,7 +74,7 @@ export class AppointmentTypesService {
 
   async remove(id: string) {
     try {
-      return await this.repo.softDelete(id);
+      return await this.appointmentTypesRepository.softDelete(id);
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;

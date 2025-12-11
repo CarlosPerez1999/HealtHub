@@ -10,8 +10,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from 'src/modules/users/entities/user.entity';
-import { Specialty } from 'src/modules/specialties/entities/specialty.entity';
+import { User } from '../../users/entities/user.entity';
+import { Specialty } from '../../specialties/entities/specialty.entity';
 
 @Entity('doctors')
 export class Doctor {

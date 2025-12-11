@@ -4,7 +4,7 @@ import { DoctorObject } from './models/doctor.model';
 import { CreateDoctorInput } from './dto/create-doctor.input';
 import { UpdateDoctorInput } from './dto/update-doctor.input';
 import { PaginatedDoctors } from './models/paginated-doctors.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => DoctorObject)
 export class DoctorsResolver {

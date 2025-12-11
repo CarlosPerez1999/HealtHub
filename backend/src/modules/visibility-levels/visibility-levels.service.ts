@@ -5,8 +5,8 @@ import { VisibilityLevel } from './entities/visibility-level.entity';
 import { CreateVisibilityLevelInput } from './dto/create-visibility-level.input';
 import { UpdateVisibilityLevelInput } from './dto/update-visibility-level.input';
 import { PaginatedVisibilityLevels } from './models/paginated-visibility-levels.object';
-import { PaginationInput } from 'src/common/dto/pagination.input';
-import { handleServiceError } from 'src/common/utils/error-handler';
+import { PaginationInput } from '../../common/dto/pagination.input';
+import { handleServiceError } from '../../common/utils/error-handler';
 
 @Injectable()
 export class VisibilityLevelsService {
@@ -14,15 +14,15 @@ export class VisibilityLevelsService {
 
   constructor(
     @InjectRepository(VisibilityLevel)
-    private readonly repo: Repository<VisibilityLevel>,
+    private readonly visibilityLevelsRepository: Repository<VisibilityLevel>,
   ) {}
 
   async create(input: CreateVisibilityLevelInput): Promise<VisibilityLevel> {
     try {
-      const exist = await this.repo.findOneBy({ code: input.code});
+      const exist = await this.visibilityLevelsRepository.findOneBy({ code: input.code});
       if (exist) throw new ConflictException(`Visibility level ${input.code} already exists`);
-      const entity = this.repo.create(input);
-      return await this.repo.save(entity);
+      const entity = this.visibilityLevelsRepository.create(input);
+      return await this.visibilityLevelsRepository.save(entity);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -32,7 +32,7 @@ export class VisibilityLevelsService {
     try {
       const take = pagination?.take ?? 10;
       const skip = pagination?.skip ?? 0;
-      const [items, total] = await this.repo.findAndCount({ take, skip });
+      const [items, total] = await this.visibilityLevelsRepository.findAndCount({ take, skip });
       return { items, total, take, skip } as PaginatedVisibilityLevels;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -41,7 +41,7 @@ export class VisibilityLevelsService {
 
   async findOne(code: string): Promise<VisibilityLevel> {
     try {
-      const item = await this.repo.findOne({ where: { code } });
+      const item = await this.visibilityLevelsRepository.findOne({ where: { code } });
       if (!item) throw new NotFoundException(`Visibility level ${code} not found`);
       return item;
     } catch (error) {
@@ -51,9 +51,9 @@ export class VisibilityLevelsService {
 
   async update(input: UpdateVisibilityLevelInput): Promise<VisibilityLevel> {
     try {
-      const entity = await this.repo.preload(input);
+      const entity = await this.visibilityLevelsRepository.preload(input);
       if (!entity) throw new NotFoundException(`Visibility level ${input.code} not found`);
-      return await this.repo.save(entity);
+      return await this.visibilityLevelsRepository.save(entity);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -62,7 +62,7 @@ export class VisibilityLevelsService {
   async remove(code: string): Promise<VisibilityLevel> {
     try {
       const item = await this.findOne(code);
-      await this.repo.remove(item);
+      await this.visibilityLevelsRepository.remove(item);
       return item;
     } catch (error) {
       handleServiceError(error, this.logger);

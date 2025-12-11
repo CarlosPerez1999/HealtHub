@@ -1,7 +1,7 @@
-import { Role } from 'src/modules/roles/entities/role.entity';
-import { Patient } from 'src/modules/patients/entities/patient.entity';
-import { Doctor } from 'src/modules/doctors/entities/doctor.entity';
-import { Address } from 'src/modules/addresses/entities/address.entity';
+import { Role } from '../../roles/entities/role.entity';
+import { Patient } from '../../patients/entities/patient.entity';
+import { Doctor } from '../../doctors/entities/doctor.entity';
+import { Address } from '../../addresses/entities/address.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

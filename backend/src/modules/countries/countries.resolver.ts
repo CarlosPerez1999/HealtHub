@@ -4,7 +4,7 @@ import { CountryObject } from './models/country.model';
 import { PaginatedCountries } from './models/paginated-countries.object';
 import { CreateCountryInput } from './dto/create-country.input';
 import { UpdateCountryInput } from './dto/update-country.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 
 @Resolver(() => CountryObject)
 export class CountriesResolver {

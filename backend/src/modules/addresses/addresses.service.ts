@@ -4,12 +4,12 @@ import { Repository } from 'typeorm';
 import { Address } from './entities/address.entity';
 import { CreateAddressInput } from './dto/create-address.input';
 import { UpdateAddressInput } from './dto/update-address.input';
-import { PaginationInput } from 'src/common/dto/pagination.input';
+import { PaginationInput } from '../../common/dto/pagination.input';
 import { PaginatedAddresses } from './models/paginated-addresses.object';
-import { handleServiceError } from 'src/common/utils/error-handler';
-import { User } from 'src/modules/users/entities/user.entity';
-import { State } from 'src/modules/states/entities/state.entity';
-import { Country } from 'src/modules/countries/entities/country.entity';
+import { handleServiceError } from '../../common/utils/error-handler';
+import { User } from '../users/entities/user.entity';
+import { State } from '../states/entities/state.entity';
+import { Country } from '../countries/entities/country.entity';
 
 @Injectable()
 export class AddressesService {

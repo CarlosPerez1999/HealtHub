@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType, GraphQLISODateTime } from '@nestjs/graphql';
-import { UserObject } from 'src/modules/users/models/user.model';
-import { IdentityTypeObject } from 'src/modules/identity-types/models/identity-type.model';
+import { UserObject } from '../../users/models/user.model';
+import { IdentityTypeObject } from '../../identity-types/models/identity-type.model';
 
 @ObjectType()
 export class PatientObject {

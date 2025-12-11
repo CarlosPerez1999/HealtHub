@@ -1,6 +1,6 @@
-import { User } from 'src/modules/users/entities/user.entity';
-import { State } from 'src/modules/states/entities/state.entity';
-import { Country } from 'src/modules/countries/entities/country.entity';
+import { User } from '../../users/entities/user.entity';
+import { State } from '../../states/entities/state.entity';
+import { Country } from '../../countries/entities/country.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

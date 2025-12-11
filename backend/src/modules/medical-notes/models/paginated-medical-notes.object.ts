@@ -1,5 +1,5 @@
 import { ObjectType } from '@nestjs/graphql';
-import { Paginated } from 'src/common/factories/pagination.factory';
+import { Paginated } from '../../../common/factories/pagination.factory';
 import { MedicalNoteObject } from './medical-note.model';
 
 @ObjectType()
