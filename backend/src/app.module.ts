@@ -18,6 +18,9 @@ import { MedicalHistoryModule } from './modules/medical-history/medical-history.
 import { MedicalEventTypesModule } from './modules/medical-event-types/medical-event-types.module';
 import { AppointmentTypesModule } from './modules/appointment-types/appointment-types.module';
 import { AppointmentStatusModule } from './modules/appointment-status/appointment-status.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
+import { RegulatoryClassesModule } from './modules/regulatory-classes/regulatory-classes.module';
+import { MedicationsModule } from './modules/medications/medications.module';
 
 @Module({
   imports: [
@@ -94,6 +97,8 @@ import { AppointmentStatusModule } from './modules/appointment-status/appointmen
     AppointmentTypesModule,
     AppointmentStatusModule,
     AppointmentsModule,
+    RegulatoryClassesModule,
+    MedicationsModule,
   ],
 })
 export class AppModule {}
