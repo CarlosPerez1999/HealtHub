@@ -30,13 +30,12 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  
   @Column('boolean', { default: true })
   active: boolean;
-  
+
   @Column({ name: 'email_verified', default: false })
   emailVerified: boolean;
-  
+
   @ManyToOne(() => Role, (role) => role.users)
   @JoinColumn({ name: 'role_id' })
   role: Role;
@@ -52,6 +51,9 @@ export class User {
 
   @Column({ name: 'last_login', type: 'timestamptz', nullable: true })
   lastLogin: Date;
+
+  @Column({ name: 'refresh_token', type: 'text', nullable: true })
+  refreshToken: string | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
