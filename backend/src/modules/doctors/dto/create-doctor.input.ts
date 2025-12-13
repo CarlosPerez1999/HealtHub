@@ -1,10 +1,10 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
-import { IsBoolean, IsOptional, IsString, IsUUID } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class CreateDoctorInput {
-  @Field(() => ID)
-  @IsUUID()
+  @Field()
+  @IsString()
   userId: string;
 
   @Field()
@@ -15,10 +15,10 @@ export class CreateDoctorInput {
   @IsString()
   lastName: string;
 
-  @Field(() => ID, { nullable: true })
+  @Field({ nullable: true })
   @IsOptional()
-  @IsUUID()
-  specialtyId?: string;
+  @IsString()
+  specialtyCode?: string;
 
   @Field()
   @IsString()
