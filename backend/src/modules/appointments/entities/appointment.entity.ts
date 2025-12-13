@@ -27,7 +27,7 @@ export class Appointment {
   doctor: Doctor;
 
   @ManyToOne(() => AppointmentType, { nullable: false })
-  @JoinColumn({ name: 'appointment_type_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'appointment_type_code', referencedColumnName: 'code' })
   appointmentType: AppointmentType;
 
   @ManyToOne(() => AppointmentStatus, { nullable: false })

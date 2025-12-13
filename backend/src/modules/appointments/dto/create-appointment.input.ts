@@ -12,8 +12,9 @@ export class CreateAppointmentInput {
   doctorId: string;
 
   @Field()
-  @IsUUID()
-  appointmentTypeId: string;
+  @IsString()
+  @IsNotEmpty()
+  appointmentTypeCode: string;
 
   @Field()
   @IsString()

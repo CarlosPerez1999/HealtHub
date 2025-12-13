@@ -1,11 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity('appointment_status')
 export class AppointmentStatus {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ type: 'varchar', length: 32 })
+  @PrimaryColumn({ type: 'varchar', length: 32 })
   code: string;
 
   @Column({ type: 'varchar', length: 255 })
