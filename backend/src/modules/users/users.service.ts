@@ -14,6 +14,8 @@ import { PaginatedUsers } from './models/paginated-users.object';
 import { PaginationInput } from '../../common/dto/pagination.input';
 import { handleServiceError } from '../../common/utils/error-handler';
 import { Role } from '../roles/entities/role.entity';
+import { Patient } from '../patients/entities/patient.entity';
+import { Doctor } from '../doctors/entities/doctor.entity';
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -27,7 +29,18 @@ export class UsersService {
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     try {
-      const { password, roleCode, ...userRes } = createUserInput;
+      const { password, roleCode: rawRoleCode, patientProfile, doctorProfile, ...userRes } = createUserInput;
+      
+      // Normalize roleCode to uppercase for consistent comparison
+      const roleCode = rawRoleCode?.toUpperCase();
+
+      // Validate presence of profile data when role requires it
+      if (roleCode === 'PATIENT' && !patientProfile) {
+        throw new BadRequestException('patientProfile is required when roleCode is "PATIENT"');
+      }
+      if (roleCode === 'DOCTOR' && !doctorProfile) {
+        throw new BadRequestException('doctorProfile is required when roleCode is "DOCTOR"');
+      }
       const exist = await this.usersRepository.findOneBy({
         email: createUserInput.email.toLowerCase(),
       });
@@ -37,7 +50,7 @@ export class UsersService {
 
       const createData: Partial<User> = {
         ...userRes,
-        ...(hashed ? { passwordHash: hashed } : {}),
+        ...(hashed ? { password: hashed } : {}),
       };
 
       if (roleCode !== undefined && roleCode !== null) {
@@ -47,9 +60,56 @@ export class UsersService {
         createData.role = { code: roleCode } as Role;
       }
 
-      const user = this.usersRepository.create(createData);
-      const saved = await this.usersRepository.save(user);
-      return await this.findOne(saved.id);
+
+      const result = await this.usersRepository.manager.transaction(async (manager) => {
+        const userRepo = manager.getRepository(User);
+        const patientRepo = manager.getRepository(Patient);
+        const doctorRepo = manager.getRepository(Doctor);
+
+        const user = userRepo.create(createData as Partial<User>);
+        const saved = await userRepo.save(user);
+        this.logger.log(`User created with id: ${saved.id}, roleCode: ${roleCode}`);
+
+        if (roleCode === 'PATIENT') {
+          if (!patientProfile) {
+            throw new BadRequestException('patientProfile is required for PATIENT role');
+          }
+          const pData: Partial<Patient> = {
+            user: saved,
+            firstName: patientProfile.firstName,
+            lastName: patientProfile.lastName,
+            dateOfBirth: new Date(patientProfile.dateOfBirth),
+            nationalId: patientProfile?.nationalId,
+            nationalityCode: patientProfile?.nationalityCode,
+            phone: patientProfile?.phone,
+          };
+          this.logger.log(`Creating patient with data: ${JSON.stringify(pData)}`);
+          const patient = patientRepo.create(pData);
+          const savedPatient = await patientRepo.save(patient);
+          this.logger.log(`Patient profile created with id: ${savedPatient.id}`);
+        } else if (roleCode === 'DOCTOR') {
+          if (!doctorProfile) {
+            throw new BadRequestException('doctorProfile is required for DOCTOR role');
+          }
+          const dData: Partial<Doctor> = {
+            user: saved,
+            firstName: doctorProfile.firstName,
+            lastName: doctorProfile.lastName,
+            licenseNumber: doctorProfile.licenseNumber,
+            licenseCountry: doctorProfile?.licenseCountry,
+            boardCertified: doctorProfile?.boardCertified ?? false,
+            phone: doctorProfile?.phone,
+          };
+          this.logger.log(`Creating doctor with data: ${JSON.stringify(dData)}`);
+          const doctor = doctorRepo.create(dData);
+          const savedDoctor = await doctorRepo.save(doctor);
+          this.logger.log(`Doctor profile created with id: ${savedDoctor.id}`);
+        }
+
+        return saved;
+      });
+
+      return await this.findOne(result.id);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
@@ -77,7 +137,7 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOne({
         where: { id },
-        relations: ['role'],
+        relations: ['role', 'patients', 'patients.identityType'],
       });
       if (!user) throw new NotFoundException(`User with id ${id} not found`);
       return user;
@@ -94,7 +154,7 @@ export class UsersService {
 
       const preloadData: Partial<User> = {
         ...userRes,
-        ...(hashed ? { passwordHash: hashed } : {}),
+        ...(hashed ? { password: hashed } : {}),
       };
 
       if (roleCode !== undefined && roleCode !== null) {
@@ -123,6 +183,19 @@ export class UsersService {
       handleServiceError(error, this.logger, {
         warnMessage: `Remove attempted on non-existing user: ${id}`,
       });
+    }
+  }
+
+  async findByEmail(email: string) {
+    try {
+      if (!email) return null;
+      const user = await this.usersRepository.findOne({
+        where: { email: email.toLowerCase().trim() },
+        relations: ['role'],
+      });
+      return user ?? null;
+    } catch (error) {
+      handleServiceError(error, this.logger);
     }
   }
 }

@@ -1,0 +1,32 @@
+import { Field, InputType } from '@nestjs/graphql';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
+
+@InputType()
+export class DoctorProfileInput {
+  @Field()
+  @IsString()
+  firstName: string;
+
+  @Field()
+  @IsString()
+  lastName: string;
+
+  @Field()
+  @IsString()
+  licenseNumber: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  licenseCountry?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  boardCertified?: boolean;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  phone?: string;
+}
