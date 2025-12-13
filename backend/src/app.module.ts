@@ -25,6 +25,7 @@ import { PrescriptionStatusModule } from './modules/prescription-status/prescrip
 import { MedicalNotesModule } from './modules/medical-notes/medical-notes.module';
 import { PrescriptionsModule } from './modules/prescriptions/prescriptions.module';
 import { PrescriptionItemsModule } from './modules/prescription-items/prescription-items.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -107,6 +108,7 @@ import { PrescriptionItemsModule } from './modules/prescription-items/prescripti
     MedicalNotesModule,
     PrescriptionsModule,
     PrescriptionItemsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
