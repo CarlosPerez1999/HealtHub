@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { SpecialtiesService } from './specialties.service';
 import { SpecialtyObject } from './models/specialty.model';
 import { PaginatedSpecialties } from './models/paginated-specialties.object';
@@ -21,8 +21,8 @@ export class SpecialtiesResolver {
   }
 
   @Query(() => SpecialtyObject, { nullable: true })
-  specialty(@Args('id', { type: () => ID }) id: string) {
-    return this.specialtiesService.findOne(id);
+  specialty(@Args('code') code: string) {
+    return this.specialtiesService.findOne(code);
   }
 
   @Mutation(() => SpecialtyObject)
@@ -31,7 +31,7 @@ export class SpecialtiesResolver {
   }
 
   @Mutation(() => SpecialtyObject)
-  removeSpecialty(@Args('id', { type: () => ID }) id: string) {
-    return this.specialtiesService.remove(id);
+  removeSpecialty(@Args('code') code: string) {
+    return this.specialtiesService.remove(code);
   }
 }

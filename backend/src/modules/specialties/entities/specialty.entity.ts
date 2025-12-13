@@ -1,13 +1,10 @@
 import { Doctor } from '../../doctors/entities/doctor.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 
 @Entity('specialties')
 export class Specialty {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ type: 'varchar', length: 32, nullable: true })
-  code?: string;
+  @PrimaryColumn({ type: 'varchar', length: 32 })
+  code: string;
 
   @Column({ type: 'varchar', length: 100 })
   name: string;
@@ -23,4 +20,14 @@ export class Specialty {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz' })
   deletedAt: Date;
+
+  @BeforeInsert()
+  normalizeInsert() {
+    if (this.code) this.code = this.code.toUpperCase();
+  }
+
+  @BeforeUpdate()
+  normalizeUpdate() {
+    if (this.code) this.code = this.code.toUpperCase();
+  }
 }
