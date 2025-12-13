@@ -20,7 +20,7 @@ export class AppointmentsService {
       const entity = this.appointmentsRepository.create({
         patient: { id: input.patientId },
         doctor: { id: input.doctorId },
-        appointmentType: { id: input.appointmentTypeId },
+        appointmentType: { code: input.appointmentTypeCode },
         status: { code: input.statusCode },
         scheduledAt: new Date(input.scheduledAt),
       } as Partial<Appointment>);
@@ -74,7 +74,7 @@ export class AppointmentsService {
 
       if (input.patientId) toPreload.patient = { id: input.patientId } as any;
       if (input.doctorId) toPreload.doctor = { id: input.doctorId } as any;
-      if (input.appointmentTypeId) toPreload.appointmentType = { id: input.appointmentTypeId } as any;
+      if (input.appointmentTypeCode) toPreload.appointmentType = { code: input.appointmentTypeCode } as any;
       if (input.statusCode) toPreload.status = { code: input.statusCode } as any;
       if (input.scheduledAt) toPreload.scheduledAt = new Date(input.scheduledAt as string);
 

@@ -37,10 +37,10 @@ export class SpecialtiesService {
     }
   }
 
-  async findOne(id: string): Promise<Specialty> {
+  async findOne(code: string): Promise<Specialty> {
     try {
-      const item = await this.specialtiesRepository.findOne({ where: { id } });
-      if (!item) throw new NotFoundException(`Specialty with id ${id} not found`);
+      const item = await this.specialtiesRepository.findOne({ where: { code } });
+      if (!item) throw new NotFoundException(`Specialty with code ${code} not found`);
       return item;
     } catch (error) {
       handleServiceError(error, this.logger);
@@ -50,16 +50,16 @@ export class SpecialtiesService {
   async update(input: UpdateSpecialtyInput) {
     try {
       const entity = await this.specialtiesRepository.preload(input as Partial<Specialty>);
-      if (!entity) throw new NotFoundException(`Specialty with id ${input.id} not found`);
+      if (!entity) throw new NotFoundException(`Specialty with code ${input.code} not found`);
       return await this.specialtiesRepository.save(entity);
     } catch (error) {
       handleServiceError(error, this.logger);
     }
   }
 
-  async remove(id: string) {
+  async remove(code: string) {
     try {
-      const item = await this.findOne(id);
+      const item = await this.findOne(code);
       await this.specialtiesRepository.remove(item);
       return item;
     } catch (error) {

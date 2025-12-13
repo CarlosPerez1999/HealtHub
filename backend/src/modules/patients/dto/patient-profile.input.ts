@@ -1,12 +1,8 @@
-import { Field, InputType, GraphQLISODateTime } from '@nestjs/graphql';
-import { IsOptional, IsString, IsUUID, IsDateString } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 @InputType()
-export class CreatePatientInput {
-  @Field()
-  @IsUUID()
-  userId: string;
-
+export class PatientProfileInput {
   @Field()
   @IsString()
   firstName: string;
@@ -15,14 +11,9 @@ export class CreatePatientInput {
   @IsString()
   lastName: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field()
   @IsDateString()
   dateOfBirth: string;
-
-  @Field({ nullable: true })
-  @IsOptional()
-  @IsString()
-  identityTypeCode?: string;
 
   @Field({ nullable: true })
   @IsOptional()

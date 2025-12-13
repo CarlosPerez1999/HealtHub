@@ -32,7 +32,7 @@ export class Patient {
   dateOfBirth: Date;
 
   @ManyToOne(() => IdentityType, (it) => it.patients, { eager: false, nullable: true })
-  @JoinColumn({ name: 'uses_id' })
+  @JoinColumn({ name: 'identity_type_code', referencedColumnName: 'code' })
   identityType?: IdentityType;
 
   @Column({ name: 'national_id', nullable: true })

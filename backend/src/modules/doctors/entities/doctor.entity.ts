@@ -29,7 +29,7 @@ export class Doctor {
   lastName: string;
 
   @ManyToOne(() => Specialty, (s) => s.doctors, { eager: false, nullable: true })
-  @JoinColumn({ name: 'specialty_id' })
+  @JoinColumn({ name: 'specialty_code', referencedColumnName: 'code' })
   specialty?: Specialty;
 
   @Column({ name: 'license_number' })

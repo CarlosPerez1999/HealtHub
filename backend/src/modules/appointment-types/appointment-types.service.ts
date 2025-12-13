@@ -52,9 +52,9 @@ export class AppointmentTypesService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(code: string) {
     try {
-      return await this.appointmentTypesRepository.findOne({ where: { id } });
+      return await this.appointmentTypesRepository.findOne({ where: { code } });
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;

@@ -1,13 +1,12 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsOptional, IsString, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 
 @InputType()
 export class CreateSpecialtyInput {
-  @Field({ nullable: true })
-  @IsOptional()
+  @Field()
   @IsString()
   @Length(1, 32)
-  code?: string;
+  code: string;
 
   @Field()
   @IsString()

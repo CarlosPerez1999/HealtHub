@@ -52,9 +52,9 @@ export class AppointmentStatusService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(code: string) {
     try {
-      return await this.appointmentStatusRepository.findOne({ where: { id } });
+      return await this.appointmentStatusRepository.findOne({ where: { code } });
     } catch (error) {
       this.logger.error(error?.message ?? error);
       throw error;
