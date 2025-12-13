@@ -2,6 +2,94 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AddressObject {
+  city: String!
+  country: CountryObject!
+  createdAt: DateTime!
+  id: ID!
+  line1: String!
+  line2: String!
+  postalCode: String!
+  state: StateObject!
+  updatedAt: DateTime!
+  user: UserObject!
+}
+
+type Appointment {
+  appointmentType: AppointmentType!
+  createdAt: DateTime!
+  doctor: DoctorObject!
+  id: ID!
+  patient: PatientObject!
+  scheduledAt: DateTime!
+  status: AppointmentStatus!
+  updatedAt: DateTime!
+}
+
+type AppointmentStatus {
+  code: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type AppointmentType {
+  code: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type AuthTokensObject {
+  accessToken: String!
+  refreshToken: String!
+  user: UserObject
+}
+
+type CountryObject {
+  code: String!
+  createdAt: DateTime!
+  name: String!
+  phonePrefix: String!
+  updatedAt: DateTime!
+}
+
+input CreateAddressInput {
+  city: String!
+  countryCode: String!
+  line1: String!
+  line2: String!
+  postalCode: String!
+  stateId: ID!
+  userId: ID!
+}
+
+input CreateAppointmentInput {
+  appointmentTypeCode: String!
+  doctorId: String!
+  patientId: String!
+  scheduledAt: String!
+  statusCode: String!
+}
+
+input CreateAppointmentStatusInput {
+  code: String!
+  description: String!
+}
+
+input CreateAppointmentTypeInput {
+  code: String!
+  description: String!
+}
+
+input CreateCountryInput {
+  code: String!
+  name: String!
+  phonePrefix: String!
+}
+
 input CreateDoctorInput {
   boardCertified: Boolean
   firstName: String!
@@ -9,33 +97,117 @@ input CreateDoctorInput {
   licenseCountry: String
   licenseNumber: String!
   phone: String
-  specialtyId: ID
-  userId: ID!
+  specialtyCode: String
+  userId: String!
+}
+
+input CreateIdentityTypeInput {
+  code: String!
+  description: String!
+  value: String
+}
+
+input CreateMedicalEventTypeInput {
+  code: String!
+  description: String!
+}
+
+input CreateMedicalHistoryInput {
+  description: String
+  eventTypeCode: String!
+  icd10Code: String
+  occurredAt: DateTime
+  patientId: ID!
+  visibilityCode: String
+}
+
+input CreateMedicalNoteInput {
+  appointmentId: String!
+  content: String!
+  doctorId: String!
+}
+
+input CreateMedicationInput {
+  atcCode: String
+  dosageGuidelines: String
+  form: String
+  indications: String
+  name: String!
+  regulatoryClassId: String
+  strength: String
+  unit: String
 }
 
 input CreatePatientInput {
   dateOfBirth: DateTime!
   firstName: String!
-  identityTypeId: ID
+  identityTypeCode: String
   lastName: String!
   nationalId: String
   nationalityCode: String
   phone: String
-  userId: ID!
+  userId: String!
+}
+
+input CreatePrescriptionInput {
+  doctorId: String!
+  expiresAt: DateTime
+  issuedAt: DateTime!
+  medicalNoteId: String!
+  notes: String
+  patientId: String!
+  statusCode: String!
+}
+
+input CreatePrescriptionItemInput {
+  dose: String!
+  duration: String!
+  frequency: String!
+  instructions: String
+  medicationId: String!
+  prescriptionId: String!
+  route: String!
+}
+
+input CreatePrescriptionStatusInput {
+  code: String!
+}
+
+input CreateRegulatoryClassInput {
+  code: String!
+  description: String!
 }
 
 input CreateRoleInput {
-  code: RoleEnum!
+  code: String!
   description: String!
+}
+
+input CreateSpecialtyInput {
+  code: String!
+  name: String!
+}
+
+input CreateStateInput {
+  countryCode: String!
+  name: String!
+  stateCode: String!
 }
 
 input CreateUserInput {
   active: Boolean
+  doctorProfile: DoctorProfileInput
   email: String!
   emailVerified: Boolean
   password: String!
-  roleId: ID
+  patientProfile: PatientProfileInput
+  roleCode: String
   username: String!
+}
+
+input CreateVisibilityLevelInput {
+  code: String!
+  description: String
 }
 
 """
@@ -52,28 +224,214 @@ type DoctorObject {
   licenseCountry: String
   licenseNumber: String!
   phone: String
-  specialtyId: String
+  specialty: SpecialtyObject
   updatedAt: DateTime!
   user: UserObject!
 }
 
+input DoctorProfileInput {
+  boardCertified: Boolean
+  firstName: String!
+  lastName: String!
+  licenseCountry: String
+  licenseNumber: String!
+  phone: String
+}
+
+type IdentityTypeObject {
+  code: String!
+  createdAt: DateTime!
+  description: String!
+  updatedAt: DateTime!
+  value: String
+}
+
+input LoginDto {
+  password: String!
+  username: String!
+}
+
+type MedicalEventTypeObject {
+  code: String!
+  createdAt: DateTime!
+  description: String!
+  updatedAt: DateTime!
+}
+
+type MedicalHistoryObject {
+  createdAt: DateTime!
+  description: String
+  eventType: MedicalEventTypeObject!
+  icd10Code: String
+  id: ID!
+  occurredAt: DateTime
+  patient: PatientObject!
+  updatedAt: DateTime!
+  visibility: VisibilityLevelObject
+}
+
+type MedicalNote {
+  appointment: Appointment!
+  content: String!
+  createdAt: DateTime!
+  doctor: DoctorObject!
+  id: ID!
+}
+
+type Medication {
+  atcCode: String
+  createdAt: DateTime!
+  dosageGuidelines: String
+  form: String
+  id: ID!
+  indications: String
+  name: String!
+  regulatoryClass: RegulatoryClass
+  strength: String
+  unit: String
+  updatedAt: DateTime!
+}
+
 type Mutation {
+  createAddress(input: CreateAddressInput!): AddressObject!
+  createAppointment(input: CreateAppointmentInput!): Appointment!
+  createAppointmentStatus(input: CreateAppointmentStatusInput!): AppointmentStatus!
+  createAppointmentType(input: CreateAppointmentTypeInput!): AppointmentType!
+  createCountry(input: CreateCountryInput!): CountryObject!
   createDoctor(createDoctorInput: CreateDoctorInput!): DoctorObject!
+  createIdentityType(input: CreateIdentityTypeInput!): IdentityTypeObject!
+  createMedicalEventType(input: CreateMedicalEventTypeInput!): MedicalEventTypeObject!
+  createMedicalHistory(input: CreateMedicalHistoryInput!): MedicalHistoryObject!
+  createMedicalNote(input: CreateMedicalNoteInput!): MedicalNote!
+  createMedication(input: CreateMedicationInput!): Medication!
   createPatient(createPatientInput: CreatePatientInput!): PatientObject!
+  createPrescription(input: CreatePrescriptionInput!): Prescription!
+  createPrescriptionItem(input: CreatePrescriptionItemInput!): PrescriptionItem!
+  createPrescriptionStatus(input: CreatePrescriptionStatusInput!): PrescriptionStatus!
+  createRegulatoryClass(input: CreateRegulatoryClassInput!): RegulatoryClass!
   createRole(createRoleInput: CreateRoleInput!): RoleObject!
+  createSpecialty(input: CreateSpecialtyInput!): SpecialtyObject!
+  createState(input: CreateStateInput!): StateObject!
   createUser(createUserInput: CreateUserInput!): UserObject!
+  createVisibilityLevel(input: CreateVisibilityLevelInput!): VisibilityLevelObject!
+  login(login: LoginDto!): AuthTokensObject!
+  refreshTokens(refreshToken: String!): AuthTokensObject!
+  removeAddress(id: ID!): AddressObject!
+  removeAppointment(id: String!): Boolean!
+  removeAppointmentStatus(id: String!): Boolean!
+  removeAppointmentType(id: String!): Boolean!
+  removeCountry(code: String!): CountryObject!
   removeDoctor(id: String!): DoctorObject!
+  removeIdentityType(code: String!): IdentityTypeObject!
+  removeMedicalEventType(code: String!): MedicalEventTypeObject!
+  removeMedicalHistory(id: String!): MedicalHistoryObject!
+  removeMedicalNote(id: String!): Boolean!
+  removeMedication(id: String!): Boolean!
   removePatient(id: String!): PatientObject!
-  removeRole(id: Int!): RoleObject!
+  removePrescription(id: String!): Boolean!
+  removePrescriptionItem(id: String!): Boolean!
+  removePrescriptionStatus(code: String!): Boolean!
+  removeRegulatoryClass(code: String!): Boolean!
+  removeRole(code: String!): RoleObject!
+  removeSpecialty(code: String!): SpecialtyObject!
+  removeState(id: ID!): StateObject!
   removeUser(id: String!): UserObject!
+  removeVisibilityLevel(code: String!): VisibilityLevelObject!
+  updateAddress(input: UpdateAddressInput!): AddressObject!
+  updateAppointment(id: String!, input: UpdateAppointmentInput!): Appointment!
+  updateAppointmentStatus(id: String!, input: UpdateAppointmentStatusInput!): AppointmentStatus!
+  updateAppointmentType(id: String!, input: UpdateAppointmentTypeInput!): AppointmentType!
+  updateCountry(input: UpdateCountryInput!): CountryObject!
   updateDoctor(updateDoctorInput: UpdateDoctorInput!): DoctorObject!
+  updateIdentityType(input: UpdateIdentityTypeInput!): IdentityTypeObject!
+  updateMedicalEventType(input: UpdateMedicalEventTypeInput!): MedicalEventTypeObject!
+  updateMedicalHistory(input: UpdateMedicalHistoryInput!): MedicalHistoryObject!
+  updateMedicalNote(id: String!, input: UpdateMedicalNoteInput!): MedicalNote!
+  updateMedication(id: String!, input: UpdateMedicationInput!): Medication!
   updatePatient(updatePatientInput: UpdatePatientInput!): PatientObject!
+  updatePrescription(id: String!, input: UpdatePrescriptionInput!): Prescription!
+  updatePrescriptionItem(id: String!, input: UpdatePrescriptionItemInput!): PrescriptionItem!
+  updatePrescriptionStatus(code: String!, input: UpdatePrescriptionStatusInput!): PrescriptionStatus!
+  updateRegulatoryClass(code: String!, input: UpdateRegulatoryClassInput!): RegulatoryClass!
   updateRole(updateRoleInput: UpdateRoleInput!): RoleObject!
+  updateSpecialty(input: UpdateSpecialtyInput!): SpecialtyObject!
+  updateState(input: UpdateStateInput!): StateObject!
   updateUser(updateUserInput: UpdateUserInput!): UserObject!
+  updateVisibilityLevel(input: UpdateVisibilityLevelInput!): VisibilityLevelObject!
+}
+
+type PaginatedAddresses {
+  items: [AddressObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedAppointmentStatuses {
+  items: [AppointmentStatus!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedAppointmentTypes {
+  items: [AppointmentType!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedAppointments {
+  items: [Appointment!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedCountries {
+  items: [CountryObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
 }
 
 type PaginatedDoctors {
   items: [DoctorObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedIdentityTypes {
+  items: [IdentityTypeObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedMedicalEventTypes {
+  items: [MedicalEventTypeObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedMedicalHistories {
+  items: [MedicalHistoryObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedMedicalNotes {
+  items: [MedicalNote!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedMedications {
+  items: [Medication!]!
   skip: Int!
   take: Int!
   total: Int!
@@ -86,6 +444,34 @@ type PaginatedPatients {
   total: Int!
 }
 
+type PaginatedPrescriptionItems {
+  items: [PrescriptionItem!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedPrescriptionStatuses {
+  items: [PrescriptionStatus!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedPrescriptions {
+  items: [Prescription!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedRegulatoryClasses {
+  items: [RegulatoryClass!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
 type PaginatedRoles {
   items: [RoleObject!]!
   skip: Int!
@@ -93,8 +479,29 @@ type PaginatedRoles {
   total: Int!
 }
 
+type PaginatedSpecialties {
+  items: [SpecialtyObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedStates {
+  items: [StateObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
 type PaginatedUsers {
   items: [UserObject!]!
+  skip: Int!
+  take: Int!
+  total: Int!
+}
+
+type PaginatedVisibilityLevels {
+  items: [VisibilityLevelObject!]!
   skip: Int!
   take: Int!
   total: Int!
@@ -110,7 +517,7 @@ type PatientObject {
   dateOfBirth: DateTime!
   firstName: String!
   id: ID!
-  identityTypeId: String
+  identityType: IdentityTypeObject
   lastName: String!
   nationalId: String
   nationalityCode: String
@@ -119,31 +526,154 @@ type PatientObject {
   user: UserObject!
 }
 
-type Query {
-  doctor(id: String!): DoctorObject!
-  doctors(pagination: PaginationInput): PaginatedDoctors!
-  patient(id: String!): PatientObject!
-  patients(pagination: PaginationInput): PaginatedPatients!
-  role(id: Int!): RoleObject!
-  roles(pagination: PaginationInput): PaginatedRoles!
-  user(id: String!): UserObject!
-  users(pagination: PaginationInput): PaginatedUsers!
+input PatientProfileInput {
+  dateOfBirth: String!
+  firstName: String!
+  lastName: String!
+  nationalId: String
+  nationalityCode: String
+  phone: String
 }
 
-"""Available system roles"""
-enum RoleEnum {
-  ADMIN
-  DOCTOR
-  PATIENT
-  RECEPTIONIST
+type Prescription {
+  createdAt: DateTime!
+  doctor: DoctorObject!
+  id: ID!
+  medicalNotes: [MedicalNote!]
+  notes: String
+  patient: PatientObject!
+  status: PrescriptionStatus!
+  updatedAt: DateTime!
+}
+
+type PrescriptionItem {
+  createdAt: DateTime!
+  dosage: String!
+  id: ID!
+  medication: Medication!
+  prescription: Prescription!
+  quantity: Int!
+}
+
+type PrescriptionStatus {
+  code: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  address(id: ID!): AddressObject
+  addresses(pagination: PaginationInput): PaginatedAddresses!
+  appointment(id: String!): Appointment!
+  appointmentStatus(id: String!): AppointmentStatus!
+  appointmentStatuses: [AppointmentStatus!]!
+  appointmentStatusesPaginated(pagination: PaginationInput): PaginatedAppointmentStatuses!
+  appointmentType(id: String!): AppointmentType!
+  appointmentTypes: [AppointmentType!]!
+  appointmentTypesPaginated(pagination: PaginationInput): PaginatedAppointmentTypes!
+  appointments: [Appointment!]!
+  appointmentsPaginated(pagination: PaginationInput): PaginatedAppointments!
+  countries(pagination: PaginationInput): PaginatedCountries!
+  country(code: String!): CountryObject
+  doctor(id: String!): DoctorObject!
+  doctors(pagination: PaginationInput): PaginatedDoctors!
+  identityType(code: String!): IdentityTypeObject
+  identityTypes(pagination: PaginationInput): PaginatedIdentityTypes!
+  medicalEventType(code: String!): MedicalEventTypeObject
+  medicalEventTypes(pagination: PaginationInput): PaginatedMedicalEventTypes!
+  medicalHistories(pagination: PaginationInput): PaginatedMedicalHistories!
+  medicalHistory(id: String!): MedicalHistoryObject
+  medicalNote(id: String!): MedicalNote
+  medicalNotes: PaginatedMedicalNotes!
+  medication(id: String!): Medication!
+  medications: [Medication!]!
+  medicationsPaginated(pagination: PaginationInput): PaginatedMedications!
+  patient(id: String!): PatientObject!
+  patients(pagination: PaginationInput): PaginatedPatients!
+  prescription(id: String!): Prescription
+  prescriptionItem(id: String!): PrescriptionItem
+  prescriptionItems: PaginatedPrescriptionItems!
+  prescriptionStatus(code: String!): PrescriptionStatus
+  prescriptionStatuses: PaginatedPrescriptionStatuses!
+  prescriptions: PaginatedPrescriptions!
+  regulatoryClass(code: String!): RegulatoryClass!
+  regulatoryClasses: [RegulatoryClass!]!
+  regulatoryClassesPaginated(pagination: PaginationInput): PaginatedRegulatoryClasses!
+  role(code: String!): RoleObject!
+  roles(pagination: PaginationInput): PaginatedRoles!
+  specialties(pagination: PaginationInput): PaginatedSpecialties!
+  specialty(code: String!): SpecialtyObject
+  state(id: ID!): StateObject
+  states(pagination: PaginationInput): PaginatedStates!
+  user(id: String!): UserObject!
+  users(pagination: PaginationInput): PaginatedUsers!
+  visibilityLevel(code: String!): VisibilityLevelObject
+  visibilityLevels(pagination: PaginationInput): PaginatedVisibilityLevels!
+}
+
+type RegulatoryClass {
+  code: String!
+  createdAt: DateTime!
+  description: String!
+  updatedAt: DateTime!
 }
 
 type RoleObject {
-  code: RoleEnum!
+  code: String!
   createdAt: DateTime!
   description: String!
-  id: Int!
   updatedAt: DateTime!
+}
+
+type SpecialtyObject {
+  code: String!
+  createdAt: DateTime!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type StateObject {
+  countryCode: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  stateCode: String!
+  updatedAt: DateTime!
+}
+
+input UpdateAddressInput {
+  city: String
+  countryCode: String
+  id: ID!
+  line1: String
+  line2: String
+  postalCode: String
+  stateId: ID
+  userId: ID
+}
+
+input UpdateAppointmentInput {
+  appointmentTypeCode: String
+  doctorId: String
+  patientId: String
+  scheduledAt: String
+  statusCode: String
+}
+
+input UpdateAppointmentStatusInput {
+  code: String
+  description: String
+}
+
+input UpdateAppointmentTypeInput {
+  code: String
+  description: String
+}
+
+input UpdateCountryInput {
+  code: String!
+  name: String
+  phonePrefix: String
 }
 
 input UpdateDoctorInput {
@@ -154,46 +684,140 @@ input UpdateDoctorInput {
   licenseCountry: String
   licenseNumber: String
   phone: String
-  specialtyId: ID
-  userId: ID
+  specialtyCode: String
+  userId: String
+}
+
+input UpdateIdentityTypeInput {
+  code: String!
+  description: String
+  value: String
+}
+
+input UpdateMedicalEventTypeInput {
+  code: String!
+  description: String
+}
+
+input UpdateMedicalHistoryInput {
+  description: String
+  eventTypeCode: String
+  icd10Code: String
+  id: ID!
+  occurredAt: DateTime
+  patientId: ID
+  visibilityCode: String
+}
+
+input UpdateMedicalNoteInput {
+  appointmentId: String
+  content: String
+  doctorId: String
+}
+
+input UpdateMedicationInput {
+  atcCode: String
+  dosageGuidelines: String
+  form: String
+  indications: String
+  name: String
+  regulatoryClassId: String
+  strength: String
+  unit: String
 }
 
 input UpdatePatientInput {
   dateOfBirth: DateTime
   firstName: String
   id: ID!
-  identityTypeId: ID
+  identityTypeCode: String
   lastName: String
   nationalId: String
   nationalityCode: String
   phone: String
-  userId: ID
+  userId: String
+}
+
+input UpdatePrescriptionInput {
+  doctorId: String
+  expiresAt: DateTime
+  issuedAt: DateTime
+  medicalNoteId: String
+  notes: String
+  patientId: String
+  statusCode: String
+}
+
+input UpdatePrescriptionItemInput {
+  dose: String
+  duration: String
+  frequency: String
+  instructions: String
+  medicationId: String
+  prescriptionId: String
+  route: String
+}
+
+input UpdatePrescriptionStatusInput {
+  code: String
+}
+
+input UpdateRegulatoryClassInput {
+  code: String
+  description: String
 }
 
 input UpdateRoleInput {
-  code: RoleEnum
+  code: String!
   description: String
-  id: Int!
+}
+
+input UpdateSpecialtyInput {
+  code: String!
+  name: String
+}
+
+input UpdateStateInput {
+  countryCode: String
+  id: ID!
+  name: String
+  stateCode: String
 }
 
 input UpdateUserInput {
   active: Boolean
+  doctorProfile: DoctorProfileInput
   email: String
   emailVerified: Boolean
   id: ID!
   password: String
-  roleId: ID
+  patientProfile: PatientProfileInput
+  roleCode: String
   username: String
+}
+
+input UpdateVisibilityLevelInput {
+  code: String!
+  description: String
 }
 
 type UserObject {
   active: Boolean!
+  addresses: [AddressObject!]
   createdAt: DateTime!
   email: String!
   emailVerified: Boolean!
   id: ID!
   lastLogin: DateTime
+  patients: [PatientObject!]
   role: RoleObject
   updatedAt: DateTime!
   username: String!
+}
+
+type VisibilityLevelObject {
+  code: String!
+  createdAt: DateTime!
+  description: String
+  updatedAt: DateTime!
 }
