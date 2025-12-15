@@ -3,8 +3,12 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import {providePrimeNG} from 'primeng/config'
-import Lara from '@primeuix/themes/lara'
+import { providePrimeNG } from 'primeng/config';
+import Lara from '@primeuix/themes/lara';
+import { definePreset, palette } from '@primeuix/themes';
+
+const primaryPaletteDark = palette('#a31d56') as Record<string, any>;
+const primaryPaletteLight = palette('#249e97') as Record<string, any>;
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,8 +17,26 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     providePrimeNG({
       theme: {
-        preset:Lara
-      }
-    })
-  ]
+        preset: definePreset(Lara, {
+          semantic: {
+            colorScheme: {
+              light: {
+                primary: {
+                  ...(primaryPaletteLight || {}),
+                },
+              },
+              dark: {
+                primary: {
+                  ...(primaryPaletteDark || {}),
+                },
+              },
+            },
+          },
+        }),
+        options: {
+          darkModeSelector: '.app-dark',
+        },
+      },
+    }),
+  ],
 };
