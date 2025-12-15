@@ -1,0 +1,33 @@
+<div class="min-h-screen w-full flex px-5 items-center justify-center">
+  <div
+    class="relative bg-highlight shadow-lg rounded-xl p-4 flex flex-col items-center gap-8 max-w-lg w-full"
+  >
+    <p-button
+      class="absolute right-10"
+      rounded="true"
+      text="true"
+      size="large"
+      (onClick)="themeService.toggleTheme()"
+      [icon]="themeService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+    />
+    <p-image src="images/Corphiucus.png" alt="Logo" style="width: 200px; height: auto" />
+    <form class="flex flex-col gap-6 w-full">
+      <p-fluid class="flex flex-col gap-8">
+        <h2 class="text-2xl font-bold text-center mb-2 text-primary-600 dark:text-primary-300">
+          Welcome To Corephiucus
+        </h2>
+        <p-floatlabel variant="over">
+          <input id="login_username" pInputText autocomplete="off" class="w-full" />
+          <label for="login_username">User</label>
+        </p-floatlabel>
+        <p-floatlabel variant="over">
+          <input id="login_password" pInputText type="password" autocomplete="off" class="w-full" />
+          <label for="login_password">Password</label>
+        </p-floatlabel>
+        <p-button pButton severity="primary" type="submit" fluid
+          ><span pButtonLabel>Login</span></p-button
+        >
+      </p-fluid>
+    </form>
+  </div>
+</div>
